@@ -1,0 +1,8 @@
+	{
+		"ProjectID": "1",
+		"ProjectName": "Corvallis Forestry Lab",
+		"ECM" : [
+			{"name" : "Chiller retrofits", "id": 2, "DataComplete" : 60, "num":5},
+			{"name" : "Economizer installation", "id": 3, "DataComplete" : 0, "num":100}
+		]
+	}

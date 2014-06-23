@@ -1,0 +1,23 @@
+*.icon-green {color: green}
+*.icon-red {color: red}
+*.icon-orange {color: orange}
+*.icon-white {color: white}
+
+/*
+.list-group-item{
+	display: inline;
+
+}
+
+.white, .white a  {
+  color: #ffffff;
+}
+*/
+
+.post{
+	border:none;
+	color: #ffffff;
+	background-color: #ffffff;
+	box-shadow: 0px 0px 0px #ffffff;
+	/*padding-left: 15px;*/
+}

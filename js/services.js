@@ -43,46 +43,17 @@ qdServices.factory('httpInterceptor', function httpInterceptor ($q, $window, $lo
   };
 });
 
-//for pulling a list of projects and creating a new project
-qdServices.factory('ProjectsFactory', function ($resource) {
-        //return $resource('http://doright.lbl.gov/epb/api/allprojects.json', {}, {
-        return $resource('/epb/api/allprojects.json', {}, {
-        query: { method: 'GET' },
+
+//retrieves the qdo queues
+qdServices.factory('QueueFactory', function ($resource) {
+        //return $resource('http://localhost:8080/api/v1/:username/', {}, {
+        return $resource('./data/:username.json', {}, {
+        query: { method: 'GET', params: {username: '@username'} },
+        //query: { method: 'GET' },
         create: { method: 'POST' }
     })
-});
-
-
-//retrieves the metadata file for building forms
-qdServices.factory('MetaDataFactory', function ($resource) {
-        return $resource('./data/form-meta.json', {}, {
-        query: { method: 'GET' },
-    })
 
 });
 
-
-
-//retrieves and updates a single project
-qdServices.factory('ProjectFactory', function ($resource) {
-   //return $resource('http://doright.lbl.gov/epb/api/project/:id.json', {}, {
-    return $resource('/epb/api/project/:id.json', {}, {
-        show: { method: 'GET' },
-        update: { method: 'PUT',
-            params: {
-                id: "@id"
-            } 
-        },
-        delete: { method: 'DELETE', params: {id: "@id"} }
-    })  
-});
-
-
-//used to delete an ECM from a project
-qdServices.factory('ProjectECMFactory', function ($resource) {
-    return $resource('/epb/api/delete_ecm/:id/:ecmid', {}, {
-        delete: { method: 'GET', params: {id: '@id', ecmid: '@ecmid'} }
-    })
-});
 
 

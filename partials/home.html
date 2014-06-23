@@ -1,5 +1,10 @@
 <h1>Welcome to qdo</h1>
-   <p class="lead"> {{ page_body }} </p>
-   <p>Try going to {baseurl}/{username} to get started </p>
-   <span class="glyphicon glyphicon-ok"></span>
-   <span class="glyphicon glyphicon-remove"></span>
+   <p class="lead"> Scintillating and informative content. </p>
+   <p>Try going to {baseurl}/{username} to get started, or enter your username below and press go. </p>
+	<div>
+	  Username:
+	    <input type="text" ng-model="username">
+	  Token:
+	    <input type="text" ng-model="token">
+	    <button ng-click="newPage()">go</button>
+	</div>

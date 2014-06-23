@@ -14,8 +14,6 @@ var epbApp = angular.module('qdApp', [
       [ '$rootScope', '$state', '$stateParams', '$cookies',
       function ($rootScope,   $state,   $stateParams, $cookies) {
 
-        console.log("this is running");
-
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         //navigation template locations
@@ -42,6 +40,11 @@ epbApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
         url: "/home/:username",
         templateUrl: "partials/userhome.html",
         controller: 'userhomeCtrl'
+    })
+    .state('queue', {
+        url: "/home/:username/:queuename",
+        templateUrl: "partials/queue.html",
+        controller: 'queueCtrl'
     })
 
     .state('projects', {

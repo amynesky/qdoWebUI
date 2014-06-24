@@ -24,6 +24,9 @@
             <div class="progress-bar progress-bar-warning" style="width: {{ percent(q, 'Waiting') }}%">
               <span>{{ q["ntasks"]["Waiting"] }}</span>
             </div>
+            <div class="progress-bar" style="width: {{ percent(q, 'Pending') }}%">
+              <span>{{ q["ntasks"]["Pending"] }}</span>
+            </div>
             <div class="progress-bar progress-bar-info" style="width: {{ percent(q, 'Running') }}%">
               <span>{{ q["ntasks"]["Running"] }}</span>
             </div>
@@ -37,15 +40,3 @@
           
         </li>
     </ul>
-    <p>This is what some colored glyphicons look like:
-      <span class="glyphicon glyphicon-ok icon-green"></span>
-      <span class="glyphicon glyphicon-remove icon-orange"></span>
-      <span class="glyphicon glyphicon-warning-sign icon-red"></span>
-      (Those colors are garrishly bright; need to tone down the css styling)
-    </p>
-    <p>
-      I might want to use <a href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a>
-      instead, but
-      <a href="http://glyphicons.com">Glyphicons</a>
-      is what <a href="http://getbootstrap.com">Bootstrap</a> comes with for starters.
-    </p>

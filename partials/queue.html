@@ -1,9 +1,10 @@
-<a ng-href="http://localhost/qdoUI/app.html#/home"> home </a>
+<a ng-href="http://localhost/qdoUI/app.html#/home"> home </a> &bull;
 <a ng-href="http://localhost/qdoUI/app.html#/home/{{username}}"> userhome </a>
-<h1>Hello {{username}}, you have {{nqueues}} queues.</h1>
+<h1>{{ queue.name }} queue.</h1>
     <p class="lead"> {{ page_body }} </p>
     <ul class="list-group">
         <li class="list-group-item">
+
           <span ng-if="succeeded(queue)" >
             <span class="glyphicon glyphicon-ok icon-green"></span>
             <button class="glyphicon glyphicon-remove icon-white pull-right post" type="button"></button>
@@ -19,10 +20,13 @@
             <button class="glyphicon glyphicon-pause icon-orange pull-right post" type="button"></button>
             <button class="glyphicon glyphicon-play icon-orange pull-right post" type="button"></button>
           </span>
-          <a ng-href="http://localhost/qdoUI/app.html#/home/amynesky/{{queue.name}}"> {{ queue.name }} </a>
+          {{ queue.name }}
           <div class="progress pull-right" style="width: 80%">
             <div class="progress-bar progress-bar-warning" style="width: {{ percent(queue, 'Waiting') }}%">
               <span>{{ queue["ntasks"]["Waiting"] }}</span>
+            </div>
+            <div class="progress-bar" style="width: {{ percent(queue, 'Pending') }}%">
+              <span>{{ queue["ntasks"]["Pending"] }}</span>
             </div>
             <div class="progress-bar progress-bar-info" style="width: {{ percent(queue, 'Running') }}%">
               <span>{{ queue["ntasks"]["Running"] }}</span>
@@ -33,19 +37,7 @@
             <div class="progress-bar progress-bar-danger" style="width: {{ percent(queue, 'Failed') }}%">
               <span>{{ queue["ntasks"]["Failed"] }}</span>
             </div>
-          </div>   
+          </div> 
           
         </li>
     </ul>
-    <p>This is what some colored glyphicons look like:
-      <span class="glyphicon glyphicon-ok icon-green"></span>
-      <span class="glyphicon glyphicon-remove icon-orange"></span>
-      <span class="glyphicon glyphicon-warning-sign icon-red"></span>
-      (Those colors are garrishly bright; need to tone down the css styling)
-    </p>
-    <p>
-      I might want to use <a href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a>
-      instead, but
-      <a href="http://glyphicons.com">Glyphicons</a>
-      is what <a href="http://getbootstrap.com">Bootstrap</a> comes with for starters.
-    </p>

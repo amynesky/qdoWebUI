@@ -45,7 +45,7 @@ qdServices.factory('httpInterceptor', function httpInterceptor ($q, $window, $lo
 
 
 //retrieves the qdo queues
-qdServices.factory('QueueFactory', function ($resource) 
+qdServices.factory('QueueFactory', function ($resource) {
         return $resource('http://0.0.0.0:8080/api/v1/:username\\/', {}, {
         //return $resource('./data/:username.json', {}, {
         query: { method: 'GET', params: {username: '@username'} },

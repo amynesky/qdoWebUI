@@ -3,7 +3,7 @@
     <p class="lead"> {{ page_body }} </p>
     <ul class="list-group">
         <li ng-repeat="q in queues" class="list-group-item">
-          <!--{{succeeded(q)}}-->
+
           <span ng-if="succeeded(q)" >
             <span class="glyphicon glyphicon-ok icon-green"></span>
             <button class="glyphicon glyphicon-remove icon-white pull-right post" type="button"></button>

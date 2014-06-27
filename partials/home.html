@@ -1,6 +1,7 @@
 <h1>Welcome to qdo!</h1>
    <p class="lead"> qdo (kew-doo) is a lightweight high-throughput queuing system for workflows that have many small tasks to perform. It is designed for situations where the number of tasks to perform is much larger than the practical limits of the underlying batch job system. Its interface emphasize simplicity while maintaining flexibility. Enjoy! </p>
    <p>Try going to {baseurl}/{username} to get started, or enter your username below and press go. </p>
+   <form ng-submit="newPage()">
 	<div>
 	  Username:
 	    <input type="text" ng-model="username">
@@ -9,4 +10,6 @@
 	  <span style="margin-right:27px;">Token:</span>
 	    <input type="text" ng-model="token">
 	    <button ng-click="newPage()">go</button>
+	    {{error}}
 	</div>
+	</form>

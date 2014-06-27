@@ -14,11 +14,22 @@ function MyController($scope) {
 */
 
 /* controller for homepage */
-epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location) {
+epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, Auth) {
 
         $scope.newPage = function (){
-          $location.path( '/home/' + $scope.username );
+          try{
+            var token = Auth.setCredentials({"username": $scope.username,"password": $scope.username});
+            console.log(token);
+            $location.path( '/home/' + $scope.username );
+          }catch(err){
+            $scope.usernameError();
+          }
         };
+
+        $scope.usernameError = function (){
+          $scope.error = "Whoops! There seems to be an issue with the supplied username and/or token." ;
+        };
+
 
 });
 

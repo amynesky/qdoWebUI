@@ -42,7 +42,6 @@ qdServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base6
               url: 'http://0.0.0.0:8080/api/v1/token', 
               headers: {'Authorization': 'Basic '+ $base64.encode(username + ':' + password)}
             });
-            console.log("here");
         },
         clearCredentials: function () {
             document.execCommand("ClearAuthenticationCache");
@@ -51,6 +50,26 @@ qdServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base6
         }
     };
 }]);
+
+
+//retrieves the qdo queues
+qdServices.factory('QueueFactory', function ($resource) {
+        return $resource('http://0.0.0.0:8080/api/v1/:username\\/', {}, {
+        //return $resource('./data/:username.json', {}, {
+        query: { method: 'GET', params: {username: '@username' } },
+        //query: { method: 'GET' },
+        create: { method: 'POST' }
+    })
+
+});
+
+
+
+
+
+
+
+
 
 
 
@@ -75,19 +94,4 @@ qdServices.factory('httpInterceptor', function httpInterceptor ($q, $window, $lo
       return promise.then(success, error);
   };
 });
-
-
-//retrieves the qdo queues
-qdServices.factory('QueueFactory', function ($resource) {
-        return $resource('http://0.0.0.0:8080/api/v1/:username\\/', {}, {
-        //return $resource('./data/:username.json', {}, {
-        query: { method: 'GET', params: {username: '@username'} },
-        //query: { method: 'GET' },
-        create: { method: 'POST' }
-    })
-
-});
-
-
-
 

@@ -17,13 +17,25 @@ function MyController($scope) {
 epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, Auth) {
 
         $scope.newPage = function (){
-          try{
-            var token = Auth.setCredentials({"username": $scope.username,"password": $scope.username});
-            console.log(token);
+          //try{
+            var token = Auth.setCredentials($scope.username,$scope.password).success(function(data, status, headers, config) {
+               /*console.log("data2");
+              console.log(data);
+               console.log("status2");
+              console.log(status);
+               console.log("headers2");
+              console.log(headers);
+               console.log("config2");
+              console.log(config);*/
+              $scope.token = data.token;
+              console.log("token: ");
+              console.log($scope.token);
+
+            });
             $location.path( '/home/' + $scope.username );
-          }catch(err){
-            $scope.usernameError();
-          }
+          //}catch(err){
+          //  $scope.usernameError();
+          //}
         };
 
         $scope.usernameError = function (){

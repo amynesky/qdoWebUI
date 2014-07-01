@@ -17,7 +17,7 @@ function MyController($scope) {
 epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, Auth) {
 
         $scope.newPage = function (){
-          try{
+          //try{
             var token = Auth.setCredentials($scope.username,$scope.password).success(function(data, status, headers, config) {
               $scope.token = data.token;
               console.log("token: ");
@@ -25,13 +25,13 @@ epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, A
               $location.path( '/home/' + $scope.username );
             });
             //$location.path( '/home/' + $scope.username );
-          }catch(err){
-            $scope.usernameError();
-          }
+          //}catch(err){
+          //  $scope.usernameError();
+          //}
         };
 
         $scope.usernameError = function (){
-          $scope.error = "Whoops! There seems to be an issue with the supplied username and/or token." ;
+          $scope.error = "Whoops! There seems to be an issue with the supplied username and/or password." ;
         };
 
 

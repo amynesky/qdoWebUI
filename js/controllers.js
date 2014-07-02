@@ -14,14 +14,15 @@ function MyController($scope) {
 */
 
 /* controller for homepage */
-epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, Auth) {
+epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, $cookieStore, Auth) {
 
         $scope.newPage = function (){
           //try{
             var token = Auth.setCredentials($scope.username,$scope.password).success(function(data, status, headers, config) {
-              $scope.token = data.token;
+              token = data.token;
               console.log("token: ");
-              console.log($scope.token);
+              console.log(token);
+              $cookieStore.put("token", token); 
               $location.path( '/home/' + $scope.username );
             });
             //$location.path( '/home/' + $scope.username );
@@ -33,6 +34,7 @@ epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, A
         $scope.usernameError = function (){
           $scope.error = "Whoops! There seems to be an issue with the supplied username and/or password." ;
         };
+
 
 
 });

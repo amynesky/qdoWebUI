@@ -22,6 +22,10 @@ var qdoApp = angular.module('qdoApp', [
 
       }]);
 
+qdoApp.run(function (api) {
+   api.init();
+});
+
 // client side routing
 qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
 

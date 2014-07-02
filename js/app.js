@@ -10,6 +10,7 @@ var qdoApp = angular.module('qdoApp', [
   'ui.select2',
   'ngCookies',
   'base64',
+  'LocalStorageModule',
   'ngSanitize'
 ]).run(
       [ '$rootScope', '$state', '$stateParams', '$cookies',
@@ -20,11 +21,13 @@ var qdoApp = angular.module('qdoApp', [
         //navigation template locations
         $rootScope.navPath = "./partials/navigations/nav.html";
 
+        if($cookies && $cookies.token){
+          $rootScope.token = $cookies.token.replace(/\"/g,"");
+        }
+
       }]);
 
-qdoApp.run(function (api) {
-   api.init();
-});
+
 
 // client side routing
 qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){

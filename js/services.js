@@ -32,7 +32,6 @@ qdServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base6
  
     return {
         setCredentials: function (username, password) {
-            console.log("trying set creds");
             //var encoded = $base64.encode(amynesky + ':' + password);
             //console.log(encoded);
             //$http.defaults.headers.common = {"Access-Control-Request-Headers": "accept, origin, authorization"}; //you probably don't need this line.  This lets me connect to my server on a different domain
@@ -53,19 +52,17 @@ qdServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base6
 
 
 //retrieves the qdo queues
-qdServices.factory('QueueFactory', function ($resource) {
-        return $resource('http://0.0.0.0:8080/api/v1/:username\\/', {}, {
-        //return $resource('./data/:username.json', {}, {
-        query: { method: 'GET', params: {username: '@username' } },
-        //query: { method: 'GET' },
-        create: { method: 'POST' }
-    })
-
-});
-
-
-
-
+qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function ($base64, $rootScope, $http) {
+  return {
+      setCredentials: function (username) {
+         return $http({
+              method: 'GET', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/', 
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
+            });
+      }
+  }
+}]);
 
 
 

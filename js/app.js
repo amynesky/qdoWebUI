@@ -13,19 +13,30 @@ var qdoApp = angular.module('qdoApp', [
   'LocalStorageModule',
   'ngSanitize'
 ]).run(
-      [ '$rootScope', '$state', '$stateParams', '$cookies',
-      function ($rootScope,   $state,   $stateParams, $cookies) {
+      [ '$rootScope', '$state', '$stateParams', '$cookies', 'localStorageService', 
+      function ($rootScope,   $state,   $stateParams, $cookies, localStorageService) {
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         //navigation template locations
         $rootScope.navPath = "./partials/navigations/nav.html";
 
-        if($cookies && $cookies.token){
-          $rootScope.token = $cookies.token.replace(/\"/g,"");
+        /*check to see that you already have a token for the day*/
+        var currentDate = new Date();
+        currentDate = currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDay()  + " " 
+                      + currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds() 
+                      + "." + currentDate.getMilliseconds();
+        currentDate = Date.parse(currentDate);                    
+        if(localStorageService.get("token") && Date.parse(localStorageService.get("token")["expiration"]) > currentDate){
+        //if($cookies && $cookies.token){
+          //$rootScope.token = $cookies.token.replace(/\"/g,"");
+          $rootScope.token = localStorageService.get("token")["token"];
         }
 
+        $rootScope.success = true;
+
       }]);
+
 
 
 
@@ -54,38 +65,9 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
         templateUrl: "partials/queue.html",
         controller: 'queueCtrl'
     })
-
-    .state('projects', {
-        url: "/projects",
-        templateUrl: "partials/project-table.html",
-        controller: 'ProjectTableCtrl',
-	      resolve: {
-	        users: ['$q', 'UsersFactory', function($q, UsersFactory) {
-                   var d = $q.defer();
-                   UsersFactory.query(function(users) {
-                   /* users returned successfully */
-                        d.resolve(users);
-                   }, function(err) {
-                        /* users failed to load */
-                        d.reject(err);
-                   });
-                   return d.promise;
-                }]
-        }
-
-    })
     
 });
-/*
-qdoApp.config(['$httpProvider', function ($httpProvider) {
-  //Reset headers to avoid OPTIONS request (aka preflight)
-  $httpProvider.defaults.headers.common = {};
-  $httpProvider.defaults.headers.post = {};
-  $httpProvider.defaults.headers.put = {};
-  $httpProvider.defaults.headers.patch = {};
 
-}]);
-*/
 
 
 qdoApp.config(['$httpProvider', function($httpProvider) {

@@ -54,13 +54,49 @@ qdServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base6
 //retrieves the qdo queues
 qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function ($base64, $rootScope, $http) {
   return {
-      setCredentials: function (username) {
+      getQueues: function (username) {
          return $http({
               method: 'GET', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/', 
               headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
             });
-      }
+      },
+     
+      pause: function(username, queuename){
+           return $http({
+              method: 'PUT', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/' + queuename, 
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
+              data: {
+                state: "Paused",
+              }
+            });
+      },
+ /*
+      rerun: function(){
+           return $http({
+              method: 'PUT', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/', 
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
+            });
+      },
+
+      resume: function(){
+           return $http({
+              method: 'PUT', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/', 
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
+            });
+      },
+
+      retry: function(){
+           return $http({
+              method: 'PUT', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/', 
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
+            });
+      },
+      */
   }
 }]);
 

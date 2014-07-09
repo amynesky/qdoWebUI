@@ -53,17 +53,25 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
     .state('home', {
         url: "/home",
         templateUrl: "partials/home.html",
-        controller: 'homeCtrl'
+        controller: 'homeCtrl',
     })
     .state('userhome', {
         url: "/home/:username",
         templateUrl: "partials/userhome.html",
-        controller: 'userhomeCtrl'
+        controller: 'userhomeCtrl',
+        /*
+        resolve: {
+          QueueFactory: 'QueueFactory',
+          queues: function(QueueFactory){
+                    return QueueFactory.getQueues().$promise;;
+                },
+        }*/
     })
     .state('queue', {
         url: "/home/:username/:queuename",
         templateUrl: "partials/queue.html",
-        controller: 'queueCtrl'
+        controller: 'queueCtrl',
+        //resolve: 'queueCtrl.resolve'
     })
     
 });

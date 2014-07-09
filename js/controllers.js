@@ -109,7 +109,7 @@ epbControllers.controller('userhomeCtrl',
 
 /* controller for queuepage */
 epbControllers.controller('queueCtrl', 
-    function ($scope, $rootScope, $stateParams, $location, QueueFactory) {
+    function ($scope, $rootScope, $stateParams, $location, QueueFactory, localStorageService) {
        
         $scope.username = $stateParams.username;
         $scope.queuename = $stateParams.queuename;
@@ -153,8 +153,30 @@ epbControllers.controller('queueCtrl',
         };
 
         $scope.pause = function(){
-          console.log("attemping to pause " + $scope.queuename + "queue.");
+          console.log("attemping to pause " + $scope.queuename + " queue.");
+          console.log($scope.queue["state"]);
           QueueFactory.pause($scope.username, $scope.queuename);
+          $rootScope.$on("QueueFactory.pause($scope.username, $scope.queuename).success()", function(event) { 
+            console.log($scope.queue["state"]);
+          });
+        };
+
+        $scope.resume = function(){
+          console.log("attemping to resume " + $scope.queuename + " queue.");
+          console.log($scope.queue["state"]);
+          QueueFactory.resume($scope.username, $scope.queuename);
+          $rootScope.$on("QueueFactory.resume($scope.username, $scope.queuename).success()", function(event) { 
+            console.log($scope.queue["state"]);
+          });
+        };
+
+        $scope.retry = function(){
+          console.log("attemping to retry " + $scope.queuename + " queue.");
+          console.log($scope.queue["state"]);
+          QueueFactory.retry($scope.username, $scope.queuename);
+          $rootScope.$on("QueueFactory.retry($scope.username, $scope.queuename).success()", function(event) { 
+            console.log($scope.queue["state"]);
+          });
         };
 
         $scope.goToUserhomePage = function(){

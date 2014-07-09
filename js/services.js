@@ -63,40 +63,57 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
       },
      
       pause: function(username, queuename){
+        
+          return $http({
+              method: 'PUT', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
+              data : {state:"Paused"},
+              //headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")},
+              //state: "Paused",
+              
+          });
+            /*
+          var url = 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename;
+          return $http.put(
+                      url, 
+                      {state:"Paused"},
+                      {headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}}
+          );
+        */
+
+          
+      },
+
+
+      resume: function(username, queuename){
+           return $http({
+              method: 'PUT', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")},
+              state: "Active",
+            });
+      },
+
+      retry: function(username, queuename){
+           return $http({
+              method: 'PUT', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + '/retry', 
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")},
+              state: "Active",
+            });
+      },
+
+      /*
+      rerun: function(username, queuename){
            return $http({
               method: 'PUT', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/' + queuename, 
-              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
-              data: {
-                state: "Paused",
-              }
-            });
-      },
- /*
-      rerun: function(){
-           return $http({
-              method: 'PUT', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/', 
-              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
-            });
-      },
-
-      resume: function(){
-           return $http({
-              method: 'PUT', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/', 
-              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
-            });
-      },
-
-      retry: function(){
-           return $http({
-              method: 'PUT', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/', 
-              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")},
+              state: "Active",
             });
       },
       */
+      
   }
 }]);
 

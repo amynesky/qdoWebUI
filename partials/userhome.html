@@ -1,26 +1,26 @@
 <!--<a ng-href="http://localhost/qdoUI/app.html#/home"> home </a>-->
 <button style="float:right" ng-click="logOut()" >Log out</button>
 <h1>Hello {{username}}, you have {{nqueues}} queues.</h1>
-    <p class="lead"> {{ page_body }} </p>
+    <p> Click on the name of a queue to see a details page for that queue. </p>
     <ul class="list-group">
         <li ng-repeat="q in queues" class="list-group-item">
 
           <span ng-if="succeeded(q)" >
             <span class="glyphicon glyphicon-ok icon-green"></span>
-            <button class="glyphicon glyphicon-remove icon-white pull-right post" type="button"></button>
-            <button class="glyphicon glyphicon-remove icon-white pull-right post" type="button"></button>
+            <!--<button class="glyphicon glyphicon-remove icon-white pull-right post" type="button"></button>
+            <button class="glyphicon glyphicon-remove icon-white pull-right post" type="button"></button>-->
           </span>
           <span ng-if= "failed(q)" >
             <span class="glyphicon glyphicon-warning-sign icon-red"></span>
-            <button class="glyphicon glyphicon-refresh icon-red pull-right post" type="button"></button>
-            <button class="glyphicon glyphicon-remove icon-white pull-right post" type="button"></button>
+            <!--<button class="glyphicon glyphicon-refresh icon-red pull-right post" type="button"></button>
+            <button class="glyphicon glyphicon-remove icon-white pull-right post" type="button"></button>-->
           </span>
           <span ng-if= "inProgress(q)" >
             <span class="glyphicon glyphicon-road icon-orange"></span>
-            <button class="glyphicon glyphicon-pause icon-orange pull-right post" type="button"></button>
-            <button class="glyphicon glyphicon-play icon-orange pull-right post" type="button"></button>
+            <!--<button class="glyphicon glyphicon-pause icon-orange pull-right post" type="button"></button>
+            <button class="glyphicon glyphicon-play icon-orange pull-right post" type="button"></button>-->
           </span>
-          <a ng-href="http://localhost/qdoUI/app.html#/home/amynesky/{{q.name}}"> {{ q.name }} </a>
+          <a ng-href="http://localhost/qdoUI/app.html#/home/{{username}}/{{q.name}}"> {{ q.name }} </a>
           <div class="progress pull-right" style="width: 80%">
             <div class="progress-bar progress-bar-warning" style="width: {{ percent(q, 'Waiting') }}%">
               <span>{{ q["ntasks"]["Waiting"] }}</span>

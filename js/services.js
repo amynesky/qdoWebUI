@@ -32,10 +32,6 @@ qdServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base6
  
     return {
         setCredentials: function (username, password) {
-            //var encoded = $base64.encode(amynesky + ':' + password);
-            //console.log(encoded);
-            //$http.defaults.headers.common = {"Access-Control-Request-Headers": "accept, origin, authorization"}; //you probably don't need this line.  This lets me connect to my server on a different domain
-            //$http.defaults.headers.common['Authorization'] = 'Basic ' + $base64.encode(username + ':' + password);
             return $http({
               method: 'GET', 
               url: 'http://0.0.0.0:8080/api/v1/token', 
@@ -63,12 +59,11 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
       },
      
       pause: function(username, queuename){
-        
           return $http({
               method: 'PUT', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
               data : {state:"Paused"},
-              //headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")},
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")},
               //state: "Paused",
               
           });

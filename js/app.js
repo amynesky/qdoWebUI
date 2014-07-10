@@ -61,11 +61,25 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
         controller: 'userhomeCtrl',
         /*
         resolve: {
+          
           QueueFactory: 'QueueFactory',
           queues: function(QueueFactory){
                     return QueueFactory.getQueues().$promise;;
                 },
-        }*/
+         
+          queues: ['$queues', 'QueueFactory', function($queues, QueueFactory) {
+                    console.log("trying to resolve");
+                    var q = $queues.defer();
+                    QueueFactory.getQueues(function(queues) {
+                        // queues returned successfully 
+                        q.resolve(queues);
+                    }, function(err) {
+                        // users failed to load 
+                        q.reject(err);
+                    });
+                    return q.promise;
+                }]
+        } */
     })
     .state('queue', {
         url: "/home/:username/:queuename",

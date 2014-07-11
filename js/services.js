@@ -51,6 +51,7 @@ qdServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base6
 qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function ($base64, $rootScope, $http) {
   return {
       getQueues: function (username) {
+          console.log("in get queues");
          return $http({
               method: 'GET', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/', 
@@ -66,8 +67,7 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
                 'Content-Type': 'application/x-www-form-urlencoded'
-              },
-              
+              },     
           });       
       },
 

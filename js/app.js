@@ -61,7 +61,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
         url: "/home/:username",
         templateUrl: "partials/userhome.html",
         controller: 'userhomeCtrl',
-        
+
         resolve: {
           
           queues: ['$q', 'QueueFactory', '$stateParams', '$rootScope', function($q, QueueFactory, $stateParams, $rootScope){

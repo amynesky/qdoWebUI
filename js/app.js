@@ -59,13 +59,17 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
         url: "/home/:username",
         templateUrl: "partials/userhome.html",
         controller: 'userhomeCtrl',
-        /*
         resolve: {
-          QueueFactory: 'QueueFactory',
-          queues: function(QueueFactory){
-                    return QueueFactory.getQueues().$promise;;
-                },
-        }*/
+          queues: ['$q', 'QueueFactory', '$stateParams', function($q, QueueFactory, $stateParams){
+              var d = $q.defer();
+
+              QueueFactory.getQueues($stateParams.username).success(function(data, status, headers, config) {
+                console.log(data);
+                d.resolve(data.queues);
+              });
+              return d.promise;
+          }]
+        }
     })
     .state('queue', {
         url: "/home/:username/:queuename",

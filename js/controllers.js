@@ -56,13 +56,14 @@ epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, $
 
 /* controller for userhome */
 epbControllers.controller('userhomeCtrl', 
-    function ($scope, $rootScope, $stateParams, $location, QueueFactory, localStorageService) {
+    function ($scope, $rootScope, $stateParams, $location, QueueFactory, localStorageService, queues) {
        
         $scope.username = $stateParams.username;
-        var queues = QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
-          $scope.queues = data.queues; 
+        //var queues = QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
+          //$scope.queues = data.queues; 
+          $scope.queues = queues;
           var pointer = 0;
-          for ( var i=0; i < data.queues.length; i++) { 
+          for ( var i=0; i < queues.length; i++) { 
             pointer += 1;
           };
         
@@ -87,7 +88,7 @@ epbControllers.controller('userhomeCtrl',
           $scope.succeeded = function(queue) {return $scope.percent(queue, "Succeeded") == 100;};
           $scope.failed = function(queue) {return $scope.percent(queue, "Failed") > 0;};
           $scope.inProgress = function(queue) {return !$scope.succeeded(queue) && !$scope.failed(queue) && $scope.ntasks(queue) > 0;};
-        });
+        //});
 
         $scope.logOut = function(){
           $location.path( '/home' );

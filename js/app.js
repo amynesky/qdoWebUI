@@ -70,6 +70,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
               return d.promise;
           }]
         }
+
     })
     .state('queue', {
         url: "/home/:username/:queuename",

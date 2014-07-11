@@ -16,10 +16,9 @@ function MyController($scope) {
 /* controller for homepage */
 epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, $cookieStore, localStorageService, Auth) {
 
-        $scope.newPage = function (){
-          try{
-            if(!$rootScope.token){ /*if you don't already have a token stored in the cookie, get one*/
-              var token = Auth.setCredentials($scope.username, $scope.password).success(function(data, status, headers, config) {
+        $scope.logIn = function (){
+            //if(!$rootScope.token){ /*if you don't already have a token stored in the cookie, get one*/
+            var token = Auth.setCredentials($scope.username, $scope.password).success(function(data, status, headers, config) {
                 token = data.token;
                 var expiration = data.expires;
                 //$cookieStore.put("token", token); /*store the new token in a cookie*/
@@ -30,39 +29,31 @@ epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, $
                   "expiration" : expiration
                 });
                 $rootScope.token = token;
-                $rootScope.success = true;
+                $rootScope.credentialsAuthorized = true;
                 $location.path( '/home/' + $scope.username );
-              });
-            }else{
-              $rootScope.success = true;
-              $location.path( '/home/' + $scope.username );
-            };
-          }catch(err){
-            console.log("error occured.");
-            $rootScope.success = false;
-            //$scope.usernameError();
-          }
+            }).error(function(data, status, headers, config) {
+                console.log("error occured.");
+                $rootScope.credentialsAuthorized = false;
+            });
         };
 
-        //$scope.usernameError = function (){
-          //if($scope.success == false){
-            $scope.error = "Whoops! Please try logging in again." ;
-          //}
-        //};
 
+        $scope.error = "Whoops! Please try logging in again." ;
+        
 
 
 });
 
 /* controller for userhome */
 epbControllers.controller('userhomeCtrl', 
-    function ($scope, $rootScope, $stateParams, $location, QueueFactory, localStorageService) {
+    function ($scope, $rootScope, $stateParams, $location, QueueFactory, localStorageService, queues) {
        
         $scope.username = $stateParams.username;
-        var queues = QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
-          $scope.queues = data.queues; 
+        //var queues = QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
+          //$scope.queues = data.queues; 
+          $scope.queues = queues;
           var pointer = 0;
-          for ( var i=0; i < data.queues.length; i++) { 
+          for ( var i=0; i < queues.length; i++) { 
             pointer += 1;
           };
         
@@ -87,11 +78,12 @@ epbControllers.controller('userhomeCtrl',
           $scope.succeeded = function(queue) {return $scope.percent(queue, "Succeeded") == 100;};
           $scope.failed = function(queue) {return $scope.percent(queue, "Failed") > 0;};
           $scope.inProgress = function(queue) {return !$scope.succeeded(queue) && !$scope.failed(queue) && $scope.ntasks(queue) > 0;};
-        });
+        //});
 
         $scope.logOut = function(){
           $location.path( '/home' );
           $rootScope.$on("$locationChangeSuccess", function(event) { 
+            console.log("cleared cookie from local storage");
             localStorageService.remove("token");
           });
         };
@@ -109,20 +101,20 @@ epbControllers.controller('userhomeCtrl',
 
 /* controller for queuepage */
 epbControllers.controller('queueCtrl', 
-    function ($scope, $rootScope, $stateParams, $location, QueueFactory, localStorageService) {
+    function ($scope, $rootScope, $stateParams, $location, QueueFactory, localStorageService, queues) {
        
         $scope.username = $stateParams.username;
         $scope.queuename = $stateParams.queuename;
-        var queues = QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
+        //var queues = QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
         //var queues = QueueFactory.query({"username": $scope.username});
         //queues.$promise.then(function(data){
-          $scope.queues = data.queues;
-          for ( var i=0; i < data.queues.length; i++) { 
-            if(data.queues[i]["name"] == $scope.queuename){     
+          $scope.queues = queues;
+          for ( var i=0; i < queues.length; i++) { 
+            if(queues[i]["name"] == $scope.queuename){     
               var pointer = i;     //assumes no two queues have the same name
             };
           };
-          $scope.queue = data.queues[pointer]; 
+          $scope.queue = queues[pointer]; 
 
           $scope.ntasks = function(queue) {
               var totaltasks = 0;
@@ -143,39 +135,40 @@ epbControllers.controller('queueCtrl',
           $scope.succeeded = function(queue) {return $scope.percent(queue, "Succeeded") == 100;};
           $scope.failed = function(queue) {return $scope.percent(queue, "Failed") > 0;};
           $scope.inProgress = function(queue) {return !$scope.succeeded(queue) && !$scope.failed(queue) && $scope.ntasks(queue) > 0;};
-        });
+        //});
 
         $scope.logOut = function(){
           $location.path( '/home' );
           $rootScope.$on("$locationChangeSuccess", function(event) { 
             localStorageService.remove("token");
+            console.log("cleared cookie from local storage");
           });
         };
 
         $scope.pause = function(){
-          console.log("attemping to pause " + $scope.queuename + " queue.");
-          console.log($scope.queue["state"]);
-          QueueFactory.pause($scope.username, $scope.queuename);
-          $rootScope.$on("QueueFactory.pause($scope.username, $scope.queuename).success()", function(event) { 
-            console.log($scope.queue["state"]);
+          console.log("attemping to PAUSE ");
+          console.log("before:" + $scope.queue["state"]);
+          QueueFactory.pause($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                $scope.queue["state"] = "Paused";
+                console.log("after pause: " + $scope.queue["state"]);
           });
         };
 
         $scope.resume = function(){
-          console.log("attemping to resume " + $scope.queuename + " queue.");
-          console.log($scope.queue["state"]);
-          QueueFactory.resume($scope.username, $scope.queuename);
-          $rootScope.$on("QueueFactory.resume($scope.username, $scope.queuename).success()", function(event) { 
-            console.log($scope.queue["state"]);
+          console.log("attemping to RESUME");
+          console.log("before:" + $scope.queue["state"]);
+          QueueFactory.resume($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                $scope.queue["state"] = "Active";
+                console.log("after resume: " + $scope.queue["state"]);
           });
         };
 
         $scope.retry = function(){
-          console.log("attemping to retry " + $scope.queuename + " queue.");
-          console.log($scope.queue["state"]);
-          QueueFactory.retry($scope.username, $scope.queuename);
-          $rootScope.$on("QueueFactory.retry($scope.username, $scope.queuename).success()", function(event) { 
-            console.log($scope.queue["state"]);
+          console.log("attemping to RETRY");
+          console.log("before:" + $scope.queue["state"]);
+          QueueFactory.retry($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                $scope.queue["state"] = "Active"; 
+                console.log("after retry: " + $scope.queue["state"]);
           });
         };
 

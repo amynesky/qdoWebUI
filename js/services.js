@@ -62,30 +62,24 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
           return $http({
               method: 'PUT', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
-              data : {state:"Paused"},
-              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")},
-              //state: "Paused",
+              data : 'state=Paused',
+              headers: {
+                'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
               
-          });
-            /*
-          var url = 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename;
-          return $http.put(
-                      url, 
-                      {state:"Paused"},
-                      {headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}}
-          );
-        */
-
-          
+          });       
       },
-
 
       resume: function(username, queuename){
            return $http({
               method: 'PUT', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
-              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")},
-              state: "Active",
+              data : 'state=Active',
+              headers: {
+                'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
             });
       },
 
@@ -93,8 +87,11 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
            return $http({
               method: 'PUT', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + '/retry', 
-              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")},
-              state: "Active",
+              data : 'state=Active',
+              headers: {
+                'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
             });
       },
 

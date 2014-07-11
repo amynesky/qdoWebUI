@@ -9,7 +9,7 @@
 	<div style="margin-top:5px;">
 	  <span style="margin-right:3px;">Password:</span>
 	    <input type="password" ng-model="password">
-	    <button ng-click="newPage()" >Log in</button>
-	    <p ng-if="!success" class="icon-red"> {{error}}</p>
+	    <button ng-click="logIn()" >Log in</button>
+	    <p ng-if="!credentialsAuthorized" class="icon-red" style="margin-top:3px;"> {{error}}</p>
 	</div>
 	</form>

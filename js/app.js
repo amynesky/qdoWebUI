@@ -26,14 +26,16 @@ var qdoApp = angular.module('qdoApp', [
         currentDate = currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDay()  + " " 
                       + currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds() 
                       + "." + currentDate.getMilliseconds();
-        currentDate = Date.parse(currentDate);                    
-        if(localStorageService.get("token") && Date.parse(localStorageService.get("token")["expiration"]) > currentDate){
+        currentDate = Date.parse(currentDate);                   
+        if(localStorageService.get("token") && Date.parse(localStorageService.get("token")["expiration"]) > currentDate){ 
         //if($cookies && $cookies.token){
           //$rootScope.token = $cookies.token.replace(/\"/g,"");
-          $rootScope.token = localStorageService.get("token")["token"];
+            $rootScope.token = localStorageService.get("token")["token"];
         }
 
-        $rootScope.success = true;
+        $rootScope.credentialsAuthorized = true;
+        $rootScope.loading = false;
+
 
       }]);
 
@@ -59,33 +61,54 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
         url: "/home/:username",
         templateUrl: "partials/userhome.html",
         controller: 'userhomeCtrl',
-        /*
+        
         resolve: {
           
-          QueueFactory: 'QueueFactory',
-          queues: function(QueueFactory){
-                    return QueueFactory.getQueues().$promise;;
-                },
-         
-          queues: ['$queues', 'QueueFactory', function($queues, QueueFactory) {
-                    console.log("trying to resolve");
-                    var q = $queues.defer();
-                    QueueFactory.getQueues(function(queues) {
-                        // queues returned successfully 
-                        q.resolve(queues);
-                    }, function(err) {
-                        // users failed to load 
-                        q.reject(err);
-                    });
-                    return q.promise;
-                }]
-        } */
+          queues: ['$q', 'QueueFactory', '$stateParams', '$rootScope', function($q, QueueFactory, $stateParams, $rootScope){
+              $rootScope.loading = true;
+              var d = $q.defer();
+              
+              QueueFactory.getQueues($stateParams.username).success(function(data, status, headers, config) {
+                  d.resolve(data.queues);
+                  $rootScope.loading = false;
+              }).error(function(data, status, headers, config) {
+                  console.log("error occured.");
+                  $rootScope.credentialsAuthorized = false;
+                  $location.path( '/home' );
+                  $rootScope.$on("$locationChangeSuccess", function(event) { 
+                      localStorageService.remove("token");
+                      console.log("cleared cookie from local storage");
+                  });
+              });
+               return d.promise;
+           }]
+        }
     })
     .state('queue', {
         url: "/home/:username/:queuename",
         templateUrl: "partials/queue.html",
         controller: 'queueCtrl',
-        //resolve: 'queueCtrl.resolve'
+        resolve: {
+          
+          queues: ['$q', 'QueueFactory', '$stateParams', '$rootScope', function($q, QueueFactory, $stateParams, $rootScope){
+            $rootScope.loading = true;
+              var d = $q.defer();
+ 
+               QueueFactory.getQueues($stateParams.username).success(function(data, status, headers, config) {
+                  d.resolve(data.queues);
+                  $rootScope.loading = false;
+               }).error(function(data, status, headers, config) {
+                  console.log("error occured.");
+                  $rootScope.credentialsAuthorized = false;
+                  $location.path( '/home' );
+                  $rootScope.$on("$locationChangeSuccess", function(event) { 
+                      localStorageService.remove("token");
+                      console.log("cleared cookie from local storage");
+                  });
+              });
+               return d.promise;
+           }]
+        }
     })
     
 });

@@ -64,7 +64,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
 
         resolve: {
           
-          queues: ['$q', 'QueueFactory', '$stateParams', '$rootScope', function($q, QueueFactory, $stateParams, $rootScope){
+          queues: ['$q', 'QueueFactory', '$stateParams', '$rootScope', '$location', 'localStorageService', function($q, QueueFactory, $stateParams, $rootScope, $location, localStorageService){
               $rootScope.loading = true;
               var d = $q.defer();
               
@@ -90,7 +90,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
         controller: 'queueCtrl',
         resolve: {
           
-          queues: ['$q', 'QueueFactory', '$stateParams', '$rootScope', function($q, QueueFactory, $stateParams, $rootScope){
+          queues: ['$q', 'QueueFactory', '$stateParams', '$rootScope', '$location', 'localStorageService', function($q, QueueFactory, $stateParams, $rootScope, $location, localStorageService){
             $rootScope.loading = true;
               var d = $q.defer();
  

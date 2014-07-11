@@ -171,6 +171,14 @@ epbControllers.controller('queueCtrl',
                 console.log("after retry: " + $scope.queue["state"]);
           });
         };
+        $scope.rerun = function(){
+          console.log("attemping to RERUN");
+          console.log("before:" + $scope.queue["state"]);
+          QueueFactory.rerun($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                $scope.queue["state"] = "Active"; 
+                console.log("after retry: " + $scope.queue["state"]);
+          });
+        };
 
         $scope.goToUserhomePage = function(){
               $location.path( '/home/' + $scope.username );

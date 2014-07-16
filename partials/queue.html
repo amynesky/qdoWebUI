@@ -1,9 +1,9 @@
 <!--<a ng-href="http://localhost/qdoUI/app.html#/home"> home </a> &bull;
 <a ng-href="http://localhost/qdoUI/app.html#/home/{{username}}"> userhome </a>-->
-<button style="float:right" ng-click="logOut()" >Log out</button>
-<button style="float:right" ng-click="goToUserhomePage()" >Userhome</button>
-<h1 style="margin-bottom:3px;">{{username}}, your {{ queue.name }} queue is {{ queue.state }}</h1>
-<h1>and has {{queue.ntasks.Waiting + queue.ntasks.Running + queue.ntasks.Pending}} tasks left to do.</h1>
+<button class="glyphicon" style="float:right" ng-click="logOut()" >Log out</button>
+<button class="glyphicon" style="float:right" ng-click="goToUserhomePage()" >Userhome</button>
+<h1 style="margin-bottom:3px;">{{username}}'s {{ queue.name }} queue.</h1>
+<p class="lead">{{ queue.name }} is {{ queue.state }} and has {{queue.ntasks.Waiting + queue.ntasks.Running + queue.ntasks.Pending}} tasks left to do.</p>
     <p class="lead"> {{ page_body }} </p>
     <ul class="list-group">
         <li class="list-group-item">
@@ -49,8 +49,60 @@
       <button class="glyphicon glyphicon-pause icon-orange post" type="button" ng-click="pause()"> Pause queue.</button>
       <button class="glyphicon glyphicon-play icon-orange post" type="button" ng-click="resume()"> Resume queue.</button>
     </span>
+<p class="lead">Task Details</p>
+<div class= "container">
+  
+  <table id="queueTaskDetailTable" class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" margin-top: "1000">
+        <thead>
+          <tr>        
+            <th>ID</th>
+            <th>State</th>
+            <th>Task</th>
+          </tr>
+        </thead>
+        <tbody></tbody>    
+    </table>
+  
+<!--
+  <table id="queueTaskDetailTable" class="table table-striped table-condensed table-hover">
+                  <thead>
+                      <tr>
+                          <th class="ID">ID&nbsp;<a ng-click="sort_by('id')"><i class="icon-sort"></i></a></th>
+                          <th class="State">State&nbsp;<a ng-click="sort_by('state')"><i class="icon-sort"></i></a></th>
+                          <th class="Task">Task&nbsp;<a ng-click="sort_by('task')"><i class="icon-sort"></i></a></th>
+                      </tr>
+                  </thead>
+                  <tfoot>
+                      <td colspan="6">
+                          <div class="pagination pull-right">
+                              <ul>
+                                  <li ng-class="{disabled: currentPage == 0}">
+                                      <a href ng-click="prevPage()">« Prev</a>
+                                  </li>
+                                  <li ng-repeat="n in range(queueTaskDetails.length)"
+                                      ng-class="{active: n == currentPage}"
+                                  ng-click="setPage()">
+                                      <a href ng-bind="n + 1">1</a>
+                                  </li>
+                                  <li ng-class="{disabled: currentPage == queueTaskDetails.length - 1}">
+                                      <a href ng-click="nextPage()">Next »</a>
+                                  </li>
+                              </ul>
+                          </div>
+                      </td>
+                  </tfoot>
+                  <tbody>
+                      <tr ng-repeat="item in queueTaskDetails[currentPage] | orderBy:sortingOrder:reverse">
+                          <td>{{item["id"]}}</td>
+                          <td>{{item["state"]}}</td>
+                          <td>{{item["task"]}}</td>
+                      </tr>
+                  </tbody>
+              </table> 
 
-
+-->
+            
+</div>
 
 
 

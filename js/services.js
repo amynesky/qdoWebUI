@@ -2,27 +2,7 @@
 
 var qdServices = angular.module('qdServices', ['ngResource']);
 
-//adds the auth token to all API calls
-qdServices.factory('api', function ($http, $cookies) {
-  return {
-      init: function (token) {
-          $http.defaults.headers.common['X-Access-Token'] = token || $cookies.token;
-      }
-  };
-});
 
-
-//calls the API to login
-qdServices.factory('authorization', function ($http) {
-  return {
-      login: function (credentials) {
-          return $http.post('http://0.0.0.0:8080/api/v1/token', credentials);
-      },
-      logout: function () {
-          return $http.post('/epb/admin/user/logout');
-      }
-  };
-});
 
 
 
@@ -38,11 +18,13 @@ qdServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base6
               headers: {'Authorization': 'Basic '+ $base64.encode(username + ':' + password)}
             });
         },
+        /*
         clearCredentials: function () {
             document.execCommand("ClearAuthenticationCache");
             $cookieStore.remove('authdata');
             $http.defaults.headers.common.Authorization = 'Basic ';
         }
+        */
     };
 }]);
 
@@ -57,7 +39,21 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
               headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
             });
       },
-     
+      getQueue: function (username, queuename) {
+         return $http({
+              method: 'GET', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
+            });
+      },
+      getQueueTaskDetails: function(username, queuename){
+          console.log('http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/");
+           return $http({
+              method: 'GET', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/", 
+              headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"),               },
+            });
+      },
       pause: function(username, queuename){
           return $http({
               method: 'PUT', 
@@ -69,7 +65,6 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
               },     
           });       
       },
-
       resume: function(username, queuename){
            return $http({
               method: 'PUT', 
@@ -81,7 +76,6 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
               },
             });
       },
-
       retry: function(username, queuename){
            return $http({
               method: 'PUT', 
@@ -93,11 +87,10 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
               },
             });
       },
-
       rerun: function(username, queuename){
            return $http({
               method: 'PUT', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/' + queuename, 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + '/rerun', 
               data : 'state=Active',
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
@@ -105,8 +98,6 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
               },
             });
       },
-      
-      
   }
 }]);
 
@@ -138,3 +129,24 @@ qdServices.factory('httpInterceptor', function httpInterceptor ($q, $window, $lo
   };
 });
 
+//adds the auth token to all API calls
+qdServices.factory('api', function ($http, $cookies) {
+  return {
+      init: function (token) {
+          $http.defaults.headers.common['X-Access-Token'] = token || $cookies.token;
+      }
+  };
+});
+
+
+//calls the API to login
+qdServices.factory('authorization', function ($http) {
+  return {
+      login: function (credentials) {
+          return $http.post('http://0.0.0.0:8080/api/v1/token', credentials);
+      },
+      logout: function () {
+          return $http.post('/epb/admin/user/logout');
+      }
+  };
+});

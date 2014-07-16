@@ -1,49 +1,47 @@
-{
-  "links": {
-    "parent_url": "http://localhost:8080/api/v1/amynesky/", 
-    "resource_url": "http://localhost:8080/api/v1/amynesky/"
-  }, 
-  "queues": [
+[
     {
-      "detail_url": "http://localhost:8080/api/v1/amynesky/queues/blatfoo", 
-      "name": "blatfoo", 
-      "ntasks": {
-        "Failed": 0, 
-        "Pending": 0, 
-        "Running": 0, 
-        "Succeeded": 5, 
-        "Waiting": 0
-      }, 
-      "state": "Active", 
-      "user": "amynesky"
+      "detail_url": "http://0.0.0.0:8080/api/v1/amynesky/queues/blatfoo/tasks/564bc2726b844eaeb58faf17ba860281", 
+      "err": 0, 
+      "id": "564bc2726b844eaeb58faf17ba860281", 
+      "message": null, 
+      "queuename": "blatfoo", 
+      "state": "Succeeded", 
+      "task": "echo hello"
     }, 
     {
-      "detail_url": "http://localhost:8080/api/v1/amynesky/queues/dog", 
-      "name": "dog", 
-      "ntasks": {
-        "Failed": 0, 
-        "Pending": 2, 
-        "Running": 0, 
-        "Succeeded": 0, 
-        "Waiting": 0
-      }, 
-      "state": "Active", 
-      "user": "amynesky"
+      "detail_url": "http://0.0.0.0:8080/api/v1/amynesky/queues/blatfoo/tasks/88b4e08cf9f3415396400e7e8f6f87dc", 
+      "err": 0, 
+      "id": "88b4e08cf9f3415396400e7e8f6f87dc", 
+      "message": null, 
+      "queuename": "blatfoo", 
+      "state": "Succeeded", 
+      "task": "echo hello"
     }, 
     {
-      "detail_url": "http://localhost:8080/api/v1/amynesky/queues/dogs", 
-      "name": "dogs", 
-      "ntasks": {
-        "Failed": 1, 
-        "Pending": 0, 
-        "Running": 0, 
-        "Succeeded": 100, 
-        "Waiting": 0
-      }, 
-      "state": "Active", 
-      "user": "amynesky"
+      "detail_url": "http://0.0.0.0:8080/api/v1/amynesky/queues/blatfoo/tasks/ad739154eedf4fe5898f4ba1a9ba8e1b", 
+      "err": 0, 
+      "id": "ad739154eedf4fe5898f4ba1a9ba8e1b", 
+      "message": null, 
+      "queuename": "blatfoo", 
+      "state": "Succeeded", 
+      "task": "echo hello"
+    }, 
+    {
+      "detail_url": "http://0.0.0.0:8080/api/v1/amynesky/queues/blatfoo/tasks/c62dcfd987d247fbbd9baa11201e3b95", 
+      "err": 0, 
+      "id": "c62dcfd987d247fbbd9baa11201e3b95", 
+      "message": null, 
+      "queuename": "blatfoo", 
+      "state": "Succeeded", 
+      "task": "echo hello"
+    }, 
+    {
+      "detail_url": "http://0.0.0.0:8080/api/v1/amynesky/queues/blatfoo/tasks/d3b1bf71c577478e87521ee095da15a8", 
+      "err": 0, 
+      "id": "d3b1bf71c577478e87521ee095da15a8", 
+      "message": null, 
+      "queuename": "blatfoo", 
+      "state": "Succeeded", 
+      "task": "echo hello"
     }
-  ], 
-  "signature": null, 
-  "time": "2014-06-17 00:22:41.302279"
-}
+  ]

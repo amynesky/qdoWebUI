@@ -13,8 +13,8 @@ var qdoApp = angular.module('qdoApp', [
   'LocalStorageModule',
   'ngSanitize'
 ]).run(
-      [ '$rootScope', '$state', '$stateParams', '$cookies', 'localStorageService', 
-      function ($rootScope,   $state,   $stateParams, $cookies, localStorageService) {
+      [ '$rootScope', '$state', '$stateParams', 'localStorageService', 
+      function ($rootScope,   $state,   $stateParams, localStorageService) {
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
@@ -28,9 +28,8 @@ var qdoApp = angular.module('qdoApp', [
                       + "." + currentDate.getMilliseconds();
         currentDate = Date.parse(currentDate);                   
         if(localStorageService.get("token") && Date.parse(localStorageService.get("token")["expiration"]) > currentDate){ 
-        //if($cookies && $cookies.token){
-          //$rootScope.token = $cookies.token.replace(/\"/g,"");
             $rootScope.token = localStorageService.get("token")["token"];
+            console.log($rootScope.token);
         }
 
         $rootScope.credentialsAuthorized = true;
@@ -74,6 +73,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
               }).error(function(data, status, headers, config) {
                   console.log("error occured.");
                   $rootScope.credentialsAuthorized = false;
+                  $rootScope.loading = false;
                   $location.path( '/home' );
                   $rootScope.$on("$locationChangeSuccess", function(event) { 
                       localStorageService.remove("token");
@@ -90,16 +90,37 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
         controller: 'queueCtrl',
         resolve: {
           
-          queues: ['$q', 'QueueFactory', '$stateParams', '$rootScope', '$location', 'localStorageService', function($q, QueueFactory, $stateParams, $rootScope, $location, localStorageService){
+          queue: ['$q', 'QueueFactory', '$stateParams', '$rootScope', '$location', 'localStorageService', function($q, QueueFactory, $stateParams, $rootScope, $location, localStorageService){
             $rootScope.loading = true;
               var d = $q.defer();
  
-               QueueFactory.getQueues($stateParams.username).success(function(data, status, headers, config) {
-                  d.resolve(data.queues);
+               QueueFactory.getQueue($stateParams.username, $stateParams.queuename).success(function(data, status, headers, config) {
+                  d.resolve(data);
                   $rootScope.loading = false;
                }).error(function(data, status, headers, config) {
                   console.log("error occured.");
                   $rootScope.credentialsAuthorized = false;
+                  $rootScope.loading = false;
+                  $location.path( '/home' );
+                  $rootScope.$on("$locationChangeSuccess", function(event) { 
+                      localStorageService.remove("token");
+                      console.log("cleared cookie from local storage");
+                  });
+              });
+               return d.promise;
+           }],
+
+          queueTaskDetails: ['$q', 'QueueFactory', '$stateParams', '$rootScope', '$location', 'localStorageService', function($q, QueueFactory, $stateParams, $rootScope, $location, localStorageService){
+            $rootScope.loading = true;
+              var d = $q.defer();
+ 
+               QueueFactory.getQueueTaskDetails($stateParams.username, $stateParams.queuename).success(function(data, status, headers, config) {
+                  d.resolve(data.tasks);
+                  $rootScope.loading = false;
+               }).error(function(data, status, headers, config) {
+                  console.log("error occured.");
+                  $rootScope.credentialsAuthorized = false;
+                  $rootScope.loading = false;
                   $location.path( '/home' );
                   $rootScope.$on("$locationChangeSuccess", function(event) { 
                       localStorageService.remove("token");
@@ -108,6 +129,8 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
               });
                return d.promise;
            }]
+
+
         }
     })
     

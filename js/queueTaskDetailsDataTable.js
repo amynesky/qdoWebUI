@@ -211,6 +211,7 @@
         var oTable;
 
         $(document).ready(function() {
+                console.log("I am in the DataTables code");
                 var queryString = window.location.search;
                 if (queryString === "") {
                     $.extend( $.fn.dataTable.defaults, {
@@ -251,12 +252,13 @@
                     ],
 
                 } );
-                /*
-                $(window).resize( function () {
-                    oTable.fnAdjustColumnSizing();
-                } );
-                */
-        });
+
+            });
+            
+            $(window).resize( function () {
+                oTable.fnAdjustColumnSizing();
+            } );
+            
 
 
 

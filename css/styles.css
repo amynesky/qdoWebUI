@@ -35,3 +35,52 @@ button{
         padding-right: 0.5em;
     }
 }
+
+table {
+	/*top: 50000px;*/
+	border-collapse: collapse;
+}
+
+table th, table td {
+	/*
+	border-left: 1px solid #787878;
+	border-right: 1px solid #787878;
+	*/
+	border: 1px solid #787878;
+	text-align: left;
+	padding-left: 3px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-right: 1px;
+	white-space: nowrap;
+}
+
+table td{font-size: small;}
+table td:nth-child(2) {padding-left: 5px;}
+table tr.odd {background-color: #ddd;}
+table tr.even {background-color: white;}
+
+/*
+table tr.odd.hover{
+	background-color: #DDFF75;
+}*/
+table tr.hover{
+	background-color: #DDFF75 !important;
+}
+
+
+.dataTables_info{
+	float:left;
+	font-size: small;
+}
+.dataTables_filter{
+	float:left;
+}
+.dataTables_paginate.paging_bootstrap.pagination.pagination-right{
+	float: right;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top:0px;
+	margin-top: 0px;
+	font-size: small;
+}

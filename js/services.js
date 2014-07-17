@@ -47,7 +47,7 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
             });
       },
       getQueueTaskDetails: function(username, queuename){
-          console.log('http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/");
+          //console.log('http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/");
            return $http({
               method: 'GET', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/", 

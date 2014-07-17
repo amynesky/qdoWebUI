@@ -126,15 +126,7 @@ epbControllers.controller('queueCtrl',
         $scope.resume = function(){QueueFactory.resume($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active";});};
         $scope.retry = function(){QueueFactory.retry($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active"; });};
         $scope.rerun = function(){QueueFactory.rerun($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active"; });};
-
-
-
-
-
-
-        
-
-                
+           
 
 
 });

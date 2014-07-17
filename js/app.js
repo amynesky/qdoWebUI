@@ -29,7 +29,7 @@ var qdoApp = angular.module('qdoApp', [
         currentDate = Date.parse(currentDate);                   
         if(localStorageService.get("token") && Date.parse(localStorageService.get("token")["expiration"]) > currentDate){ 
             $rootScope.token = localStorageService.get("token")["token"];
-            console.log($rootScope.token);
+            //console.log($rootScope.token);
         }
 
         $rootScope.credentialsAuthorized = true;

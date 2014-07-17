@@ -44,24 +44,25 @@
     </li>
 </ul>
 <span ng-if="succeeded(queue)" >
-  <button class="glyphicon glyphicon-repeat icon-orange post" type="button" ng-click="rerun()"> Rerun all tasks.</button>
+  <button class="glyphicon glyphicon-repeat icon-orange" type="button" ng-click="rerun()"> Rerun all tasks.</button>
 </span>
 <span ng-if= "failed(queue)" >
-  <button class="glyphicon glyphicon-repeat icon-orange post" type="button" ng-click="rerun()"> Rerun all tasks.</button>
-  <button class="glyphicon glyphicon-refresh icon-red post" type="button" ng-click="retry()"> Retry failed tasks.</button>
+  <button class="glyphicon glyphicon-repeat icon-orange" type="button" ng-click="rerun()"> Rerun all tasks.</button>
+  <button class="glyphicon glyphicon-refresh icon-red" type="button" ng-click="retry()"> Retry failed tasks.</button>
 </span>
 <span ng-if= "inProgress(queue)" >
-  <button class="glyphicon glyphicon-repeat icon-orange post" type="button" ng-click="rerun()"> Rerun all tasks.</button>
+  <button class="glyphicon glyphicon-repeat icon-orange" type="button" ng-click="rerun()"> Rerun all tasks.</button>
   <span ng-if= "isActive(queue)" >
-    <button class="glyphicon glyphicon-pause icon-orange post" type="button" ng-click="pause()"> Pause queue.</button>
+    <button class="glyphicon glyphicon-pause icon-orange" type="button" ng-click="pause()"> Pause queue.</button>
   </span>
   <span ng-if= "isPaused(queue)" >
-    <button class="glyphicon glyphicon-play icon-orange post" type="button" ng-click="resume()"> Resume queue.</button>
+    <button class="glyphicon glyphicon-play icon-orange" type="button" ng-click="resume()"> Resume queue.</button>
   </span>
 </span>
-
-<p style="margin-top:20px;" class="lead">Task Details:</p>
-<div class= "container">
+<div>
+<button style="margin-top:20px;" class="glyphicon lead" type="button" ng-click="showHideTaskDetailsTable()"> Task Details:</button>
+<!--<p style="margin-top:20px;" class="lead">Task Details:</p>-->
+<div ng-if="showTaskDetailsTable" class= "container">
 
   <table project-table id="queueTaskDetailsTable" aa-data="queueTaskDetails" class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" >
       <thead>
@@ -75,15 +76,9 @@
       <tbody>
         
       </tbody>
-  </table>
-
-  
-
-            
+  </table>         
 </div>
-
-
-
+</div>
 
 
 

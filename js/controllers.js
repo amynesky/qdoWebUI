@@ -130,6 +130,13 @@ epbControllers.controller('queueCtrl',
         $scope.retry = function(){QueueFactory.retry($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active"; });};
         $scope.rerun = function(){QueueFactory.rerun($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active"; });};
 
-
+        $scope.showTaskDetailsTable = false;
+        $scope.showHideTaskDetailsTable = function(){
+            if($scope.showTaskDetailsTable == false){
+                $scope.showTaskDetailsTable = true;
+            }else{
+                $scope.showTaskDetailsTable = false;
+            };
+        };
 
 });

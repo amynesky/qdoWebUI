@@ -146,64 +146,35 @@ if ( $.fn.DataTable.TableTools ) {
     } );
 }
 
-        /*clear search bar button*/
-        if ( typeof $.fn.dataTable == "function" && typeof $.fn.dataTableExt.fnVersionCheck == "function" && $.fn.dataTableExt.fnVersionCheck('1.9.2')/*older versions should work too*/ )
-        {
-            $.fn.dataTableExt.oApi.clearSearch = function ( oSettings )
-            {
+/*clear search bar button*/
+if ( typeof $.fn.dataTable == "function" && typeof $.fn.dataTableExt.fnVersionCheck == "function" && $.fn.dataTableExt.fnVersionCheck('1.9.2')/*older versions should work too*/ )
+{
+    $.fn.dataTableExt.oApi.clearSearch = function ( oSettings )
+    {
+ 
+        var table = this;
          
-                var table = this;
-                 
-                //any browser, must include your own file
-                //var clearSearch = $('<img src="/images/delete.png" style="vertical-align:text-bottom;cursor:pointer;" alt="Delete" title="Delete"/>');
-                 
-                //no image file needed, css embedding must be supported by browser
-                var clearSearch = $('<img title="Delete" alt="" src="data:image/png;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAD2SURBVHjaxFM7DoMwDH2pOESHHgDPcB223gKpAxK34EAMMIe1FCQOgFQxuflARVBSVepQS5Ht2PHn2RHMjF/ohB8p2gSZpprtyxEHX8dGTeMG0A5UlsD5rCSGvF55F4SpqpSm1GmCzPO3LXJy1LXllwvodoMsCpNVy2hbYBjCLRiaZ8u7Dng+QXlu9b4H7ncvBmKbwoYBWR4kaXv3YmAMyoEpjv2PdWUHcP1j1ECqFpyj777YA6Yss9KyuEeDaW0cCsCUJMDjYUE8kr5TNuOzC+JiMI5uz2rmJvNWvidwcJXXx8IAuwb6uMqrY2iVgzbx99/4EmAAarFu0IJle5oAAAAASUVORK5CYII=" style="vertical-align:text-bottom;cursor:pointer;" />');
-                $(clearSearch).click( function ()
-                        {
-                            table.fnFilter('');
-                        });
-                $(oSettings.nTableWrapper).find('div.dataTables_filter').append(clearSearch);
-                $(oSettings.nTableWrapper).find('div.dataTables_filter label').css('margin-right', '-16px');//16px the image width
-                $(oSettings.nTableWrapper).find('div.dataTables_filter input').css('padding-right', '16px');
-            }
+        //any browser, must include your own file
+        //var clearSearch = $('<img src="/images/delete.png" style="vertical-align:text-bottom;cursor:pointer;" alt="Delete" title="Delete"/>');
          
-            //auto-execute, no code needs to be added
-            $.fn.dataTable.models.oSettings['aoInitComplete'].push( {
-                "fn": $.fn.dataTableExt.oApi.clearSearch,
-                "sName": 'whatever'
-            } );
-        }
+        //no image file needed, css embedding must be supported by browser
+        var clearSearch = $('<img title="Delete" alt="" src="data:image/png;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAD2SURBVHjaxFM7DoMwDH2pOESHHgDPcB223gKpAxK34EAMMIe1FCQOgFQxuflARVBSVepQS5Ht2PHn2RHMjF/ohB8p2gSZpprtyxEHX8dGTeMG0A5UlsD5rCSGvF55F4SpqpSm1GmCzPO3LXJy1LXllwvodoMsCpNVy2hbYBjCLRiaZ8u7Dng+QXlu9b4H7ncvBmKbwoYBWR4kaXv3YmAMyoEpjv2PdWUHcP1j1ECqFpyj777YA6Yss9KyuEeDaW0cCsCUJMDjYUE8kr5TNuOzC+JiMI5uz2rmJvNWvidwcJXXx8IAuwb6uMqrY2iVgzbx99/4EmAAarFu0IJle5oAAAAASUVORK5CYII=" style="vertical-align:text-bottom;cursor:pointer;" />');
+        $(clearSearch).click( function ()
+                {
+                    table.fnFilter('');
+                });
+        $(oSettings.nTableWrapper).find('div.dataTables_filter').append(clearSearch);
+        $(oSettings.nTableWrapper).find('div.dataTables_filter label').css('margin-right', '-16px');//16px the image width
+        $(oSettings.nTableWrapper).find('div.dataTables_filter input').css('padding-right', '16px');
+    }
+ 
+    //auto-execute, no code needs to be added
+    $.fn.dataTable.models.oSettings['aoInitComplete'].push( {
+        "fn": $.fn.dataTableExt.oApi.clearSearch,
+        "sName": 'whatever'
+    } );
+}
 /* Table initialisation */
 var oTable;
 $(document).ready(function() {
-/*  oTable = $('#project_table').dataTable( {
-        "sDom": "<'row'<'col-lg-6'f><'col-lg-6'l>r>t<'row'<'col-lg-6'i><'col-lg-6'p>>",
-        "sPaginationType": "bootstrap",
-        "bPaginate": true,
-        "bLengthChange": false,
-        "bFilter": true,
-        "bSort": true,
-        "bAutoWidth": false,
-        "aaSorting": [[ 1, "desc" ]],
-        "aoColumnDefs": [
-            { "bSortable": false, "aTargets": [ 0,12 ] }
-    ]
-    } );
-
-    console.log("data tables setup");
-    
-    $("#project_table tbody tr").click( function( e ) {
-        if ( $(this).hasClass('row_selected') ) {
-            $(this).removeClass('row_selected');
-        }
-        else {
-            oTable.$('tr.row_selected').removeClass('row_selected').removeClass('warning');
-            $(this).addClass('row_selected');
-            $(this).addClass('warning');
-            $('.btn-project').removeAttr("disabled");   
-        
-        }
-    });
-*/
 } );

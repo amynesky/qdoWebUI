@@ -7,6 +7,7 @@ qdoDirectives.directive('projectTable', function($compile, $rootScope) {
         return function(scope, element, attrs) {
 
             var options = {
+              /*
                     "sDom": "<'row'<'col-lg-6'f><'col-lg-6'l>r>t<'row'<'col-lg-6'i><'col-lg-6'p>>",
                     "sPaginationType": "bootstrap",
                     "bPaginate": true,
@@ -16,11 +17,32 @@ qdoDirectives.directive('projectTable', function($compile, $rootScope) {
 		                "bRetrieve": true,
                     "bAutoWidth": false,
                     "aaSorting": [[ 1, "desc" ]],
+                    */
+                    "sDom": "<'row'<'col-lg-6'f><'col-lg-6'l>r>t<'row'<ip>>",
+                    "sPaginationType": "bootstrap",
+                    "aaSorting": [[ 1, "desc" ]], /*default sort rows by second column in descending order*/
+                    "bPaginate": true,
+                    "bLengthChange": true, /*records per page drop down*/
+                    "bDeferRender": false, 
+                    /* false, so that it renders the entire table on load vs only 
+                       the visible table elements; this is needed to retrieve 
+                        all filtered items, not just the visible filtered items */
+                    //"sScrollY": "340px",
+                    //"sScrollX": "100%",
+                    //"sScrollXInner": "275%",
+                    //"bScrollCollapse": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true, /*Showing 1 to 2,194 of 2,194 entries*/
+                    "bAutoWidth": false,
+                    "bSortClasses": false,
+                    "bProcessing": true,
+                    "aLengthMenu": [[ 50, 100, 500, 1000, -1], [ 50, 100, 500, 1000, "All"]], /*records per page drop down*/
                     "aoColumns": [
-                        { "mData": "id"},
-                        { "mData": "state"},      
-                        { "mData": "task" },
-                        { "mData": "err" } 
+                        { "mData": "id", "sWidth": "45px"},
+                        { "mData": "state", "sWidth": "45px"},      
+                        { "mData": "task" , "sWidth": "45px"},
+                        { "mData": "err" , "sWidth": "45px"} 
                     ],
           /*makes cells content sensitive*/
           "fnRowCallback": function( nRow, aData, iDisplayIndex,iDisplayIndexFull) {

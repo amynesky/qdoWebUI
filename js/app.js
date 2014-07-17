@@ -30,7 +30,7 @@ var qdoApp = angular.module('qdoApp', [
         currentDate = Date.parse(currentDate);                   
         if(localStorageService.get("token") && Date.parse(localStorageService.get("token")["expiration"]) > currentDate){ 
             $rootScope.token = localStorageService.get("token")["token"];
-            //console.log($rootScope.token);
+            console.log("grabbing token from local storage");
         }
 
         $rootScope.credentialsAuthorized = true;
@@ -72,7 +72,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
                   d.resolve(data.queues);
                   $rootScope.loading = false;
               }).error(function(data, status, headers, config) {
-                  console.log("error occured.");
+                  console.log("error: could not retreive queues.");
                   $rootScope.credentialsAuthorized = false;
                   $rootScope.loading = false;
                   $location.path( '/home' );
@@ -99,7 +99,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
                   d.resolve(data);
                   $rootScope.loading = false;
                }).error(function(data, status, headers, config) {
-                  console.log("error occured.");
+                  console.log("error: could not retreive queue.");
                   $rootScope.credentialsAuthorized = false;
                   $rootScope.loading = false;
                   $location.path( '/home' );
@@ -119,7 +119,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
                   d.resolve(data.tasks);
                   $rootScope.loading = false;
                }).error(function(data, status, headers, config) {
-                  console.log("error occured.");
+                  console.log("error: could not retreive queue task details.");
                   $rootScope.credentialsAuthorized = false;
                   $rootScope.loading = false;
                   $location.path( '/home' );

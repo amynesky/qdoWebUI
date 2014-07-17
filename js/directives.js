@@ -22,7 +22,17 @@ qdoDirectives.directive('projectTable', function($compile, $rootScope) {
                         { "mData": "task" },
                         { "mData": "err" } 
                     ],
-
+          /*makes cells content sensitive*/
+          "fnRowCallback": function( nRow, aData, iDisplayIndex,iDisplayIndexFull) {
+                $(nRow).children().each(function(index, td) {
+                  if(index == 1){ /*State*/
+                      if ($(td).html() === "Failed") {
+                          $(td).css("color", "#FF3229");
+                      };
+                  }              
+              });                        
+              return nRow;
+            },
 		    "fnCreatedRow": function( nRow, aData, iDataIndex ){
 
                        $compile(nRow)(scope);

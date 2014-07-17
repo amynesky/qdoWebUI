@@ -5,6 +5,7 @@
 var qdoApp = angular.module('qdoApp', [
   'qdControllers',
   'qdServices',
+  'qdoDirectives',
   'ui.router',
   'ui.bootstrap',
   'ui.select2',

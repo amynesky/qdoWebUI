@@ -1,6 +1,6 @@
 
   
-  <!--<script src="js/queueTaskDetailsDataTable.js"></script>-->
+  <script src="js/queueTaskDetailsDataTable.js"></script>
 
 <!--<a ng-href="http://localhost/qdoUI/app.html#/home"> home </a> &bull;
 <a ng-href="http://localhost/qdoUI/app.html#/home/{{username}}"> userhome </a>-->
@@ -60,59 +60,25 @@
   </span>
 </span>
 
-<p style="margin-top:20px;" class="lead">Task Details</p>
+<p style="margin-top:20px;" class="lead">Task Details:</p>
 <div class= "container">
-  
-  <table id="queueTaskDetailTable" class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" margin-top: "1000">
-        <thead>
-          <tr>        
+
+  <table project-table id="queueTaskDetailsTable" aa-data="queueTaskDetails" class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" >
+      <thead>
+          <tr>
             <th>ID</th>
             <th>State</th>
             <th>Task</th>
             <th>Error Code</th>
           </tr>
-        </thead>
-        <tbody></tbody>    
-    </table>
-  
-<!--
-  <table id="queueTaskDetailTable" class="table table-striped table-condensed table-hover">
-                  <thead>
-                      <tr>
-                          <th class="ID">ID&nbsp;<a ng-click="sort_by('id')"><i class="icon-sort"></i></a></th>
-                          <th class="State">State&nbsp;<a ng-click="sort_by('state')"><i class="icon-sort"></i></a></th>
-                          <th class="Task">Task&nbsp;<a ng-click="sort_by('task')"><i class="icon-sort"></i></a></th>
-                      </tr>
-                  </thead>
-                  <tfoot>
-                      <td colspan="6">
-                          <div class="pagination pull-right">
-                              <ul>
-                                  <li ng-class="{disabled: currentPage == 0}">
-                                      <a href ng-click="prevPage()">« Prev</a>
-                                  </li>
-                                  <li ng-repeat="n in range(queueTaskDetails.length)"
-                                      ng-class="{active: n == currentPage}"
-                                  ng-click="setPage()">
-                                      <a href ng-bind="n + 1">1</a>
-                                  </li>
-                                  <li ng-class="{disabled: currentPage == queueTaskDetails.length - 1}">
-                                      <a href ng-click="nextPage()">Next »</a>
-                                  </li>
-                              </ul>
-                          </div>
-                      </td>
-                  </tfoot>
-                  <tbody>
-                      <tr ng-repeat="item in queueTaskDetails[currentPage] | orderBy:sortingOrder:reverse">
-                          <td>{{item["id"]}}</td>
-                          <td>{{item["state"]}}</td>
-                          <td>{{item["task"]}}</td>
-                      </tr>
-                  </tbody>
-              </table> 
+      </thead>
+      <tbody>
+        
+      </tbody>
+  </table>
 
--->
+  
+
             
 </div>
 

@@ -7,52 +7,58 @@
 <button class="glyphicon" style="float:right" ng-click="logOut()" >Log out</button>
 <button class="glyphicon" style="float:right" ng-click="goToUserhomePage()" >Userhome</button>
 <h1 style="margin-bottom:3px;">{{username}}'s {{ queue.name }} queue.</h1>
-<p class="lead">{{ queue.name }} is {{ queue.state }} and has {{queue.ntasks.Waiting + queue.ntasks.Running + queue.ntasks.Pending}} tasks left to do.</p>
-    <p class="lead"> {{ page_body }} </p>
-    <ul class="list-group">
-        <li class="list-group-item">
-          <span ng-if="succeeded(queue)" >
-            <span class="glyphicon glyphicon-ok icon-green"></span>
-          </span>
-          <span ng-if= "failed(queue)" >
-            <span class="glyphicon glyphicon-warning-sign icon-red"></span>
-          </span>
-          <span ng-if= "inProgress(queue)" >
-            <span class="glyphicon glyphicon-road icon-orange"></span>
-          </span>
-          {{ queue.name }}
-          <div class="progress pull-right" style="width: 80%">
-            <div class="progress-bar progress-bar-warning" style="width: {{ percent(queue, 'Waiting') }}%">
-              <span>{{ queue["ntasks"]["Waiting"] }}</span>
-            </div>
-            <div class="progress-bar" style="width: {{ percent(queue, 'Pending') }}%">
-              <span>{{ queue["ntasks"]["Pending"] }}</span>
-            </div>
-            <div class="progress-bar progress-bar-info" style="width: {{ percent(queue, 'Running') }}%">
-              <span>{{ queue["ntasks"]["Running"] }}</span>
-            </div>
-            <div class="progress-bar progress-bar-success" style="width: {{ percent(queue, 'Succeeded') }}%">
-              <span>{{ queue["ntasks"]["Succeeded"] }}</span>
-            </div>
-            <div class="progress-bar progress-bar-danger" style="width: {{ percent(queue, 'Failed') }}%">
-              <span>{{ queue["ntasks"]["Failed"] }}</span>
-            </div>
-          </div> 
-          
-        </li>
-    </ul>
-    <span ng-if="succeeded(queue)" >
-      <button class="glyphicon glyphicon-repeat icon-orange post" type="button" ng-click="rerun()"> Rerun all tasks.</button>
-    </span>
-    <span ng-if= "failed(queue)" >
-      <button class="glyphicon glyphicon-repeat icon-orange post" type="button" ng-click="rerun()"> Rerun all tasks.</button>
-      <button class="glyphicon glyphicon-refresh icon-red post" type="button" ng-click="retry()"> Retry failed tasks.</button>
-    </span>
-    <span ng-if= "inProgress(queue)" >
-      <button class="glyphicon glyphicon-repeat icon-orange post" type="button" ng-click="rerun()"> Rerun all tasks.</button>
-      <button class="glyphicon glyphicon-pause icon-orange post" type="button" ng-click="pause()"> Pause queue.</button>
-      <button class="glyphicon glyphicon-play icon-orange post" type="button" ng-click="resume()"> Resume queue.</button>
-    </span>
+<p class="lead" style="margin-bottom:3px;">{{ queue.name }} is {{ queue.state }} and has {{queue.ntasks.Waiting  + queue.ntasks.Running + queue.ntasks.Pending}} tasks left to do.</p>
+<span ng-if= "failed(queue)">
+    <span class="glyphicon glyphicon-warning-sign icon-red" style="margin-bottom:10px;"> {{queue.ntasks.Failed}} failed tasks.</span>
+</span>
+<ul class="list-group">
+    <li class="list-group-item">
+      <span ng-if="succeeded(queue)" >
+        <span class="glyphicon glyphicon-ok icon-green"></span>
+      </span>
+      <span ng-if= "failed(queue)" >
+        <span class="glyphicon glyphicon-warning-sign icon-red"></span>
+      </span>
+      <span ng-if= "inProgress(queue)" >
+        <span class="glyphicon glyphicon-road icon-orange"></span>
+      </span>
+      {{ queue.name }}
+      <div class="progress pull-right" style="width: 80%">
+        <div class="progress-bar progress-bar-warning" style="width: {{ percent(queue, 'Waiting') }}%">
+          <span>{{ queue["ntasks"]["Waiting"] }}</span>
+        </div>
+        <div class="progress-bar" style="width: {{ percent(queue, 'Pending') }}%">
+          <span>{{ queue["ntasks"]["Pending"] }}</span>
+        </div>
+        <div class="progress-bar progress-bar-info" style="width: {{ percent(queue, 'Running') }}%">
+          <span>{{ queue["ntasks"]["Running"] }}</span>
+        </div>
+        <div class="progress-bar progress-bar-success" style="width: {{ percent(queue, 'Succeeded') }}%">
+          <span>{{ queue["ntasks"]["Succeeded"] }}</span>
+        </div>
+        <div class="progress-bar progress-bar-danger" style="width: {{ percent(queue, 'Failed') }}%">
+          <span>{{ queue["ntasks"]["Failed"] }}</span>
+        </div>
+      </div> 
+      
+    </li>
+</ul>
+<span ng-if="succeeded(queue)" >
+  <button class="glyphicon glyphicon-repeat icon-orange post" type="button" ng-click="rerun()"> Rerun all tasks.</button>
+</span>
+<span ng-if= "failed(queue)" >
+  <button class="glyphicon glyphicon-repeat icon-orange post" type="button" ng-click="rerun()"> Rerun all tasks.</button>
+  <button class="glyphicon glyphicon-refresh icon-red post" type="button" ng-click="retry()"> Retry failed tasks.</button>
+</span>
+<span ng-if= "inProgress(queue)" >
+  <button class="glyphicon glyphicon-repeat icon-orange post" type="button" ng-click="rerun()"> Rerun all tasks.</button>
+  <span ng-if= "isActive(queue)" >
+    <button class="glyphicon glyphicon-pause icon-orange post" type="button" ng-click="pause()"> Pause queue.</button>
+  </span>
+  <span ng-if= "isPaused(queue)" >
+    <button class="glyphicon glyphicon-play icon-orange post" type="button" ng-click="resume()"> Resume queue.</button>
+  </span>
+</span>
 
 <p style="margin-top:20px;" class="lead">Task Details</p>
 <div class= "container">
@@ -63,6 +69,7 @@
             <th>ID</th>
             <th>State</th>
             <th>Task</th>
+            <th>Error Code</th>
           </tr>
         </thead>
         <tbody></tbody>    

@@ -77,7 +77,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
                   $location.path( '/home' );
                   $rootScope.$on("$locationChangeSuccess", function(event) { 
                       localStorageService.remove("token");
-                      console.log("cleared cookie from local storage");
+                      console.log("cleared token from local storage");
                   });
               });
                return d.promise;
@@ -104,7 +104,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
                   $location.path( '/home' );
                   $rootScope.$on("$locationChangeSuccess", function(event) { 
                       localStorageService.remove("token");
-                      console.log("cleared cookie from local storage");
+                      console.log("cleared token from local storage");
                   });
               });
                return d.promise;
@@ -124,7 +124,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
                   $location.path( '/home' );
                   $rootScope.$on("$locationChangeSuccess", function(event) { 
                       localStorageService.remove("token");
-                      console.log("cleared cookie from local storage");
+                      console.log("cleared token from local storage");
                   });
               });
                return d.promise;

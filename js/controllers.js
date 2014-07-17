@@ -113,6 +113,9 @@ epbControllers.controller('queueCtrl',
         $scope.failed = function(queue) {return $scope.percent(queue, "Failed") > 0;};
         $scope.inProgress = function(queue) {return !$scope.succeeded(queue) && !$scope.failed(queue) && $scope.ntasks(queue) > 0;};
 
+        $scope.isActive = function(queue){return queue["state"]=="Active";};
+        $scope.isPaused = function(queue){return queue["state"]=="Paused";};
+
         $scope.logOut = function(){
           $location.path( '/home' );
           $rootScope.$on("$locationChangeSuccess", function(event) { 
@@ -126,7 +129,7 @@ epbControllers.controller('queueCtrl',
         $scope.resume = function(){QueueFactory.resume($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active";});};
         $scope.retry = function(){QueueFactory.retry($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active"; });};
         $scope.rerun = function(){QueueFactory.rerun($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active"; });};
-           
+
 
 
 });

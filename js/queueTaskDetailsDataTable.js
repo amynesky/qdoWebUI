@@ -247,7 +247,8 @@
                     "aoColumns": [
                         { "mData": "id"},
                         { "mData": "state"},      
-                        { "mData": "task" },  
+                        { "mData": "task" },
+                        { "mData": "err" }  
                            
                     ],
 

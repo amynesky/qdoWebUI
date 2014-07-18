@@ -1,7 +1,9 @@
-*.icon-green {color: green}
-*.icon-red {color: red}
-*.icon-orange {color: orange}
-*.icon-white {color: white}
+
+*.successful {color: #60BE60}
+*.failed {color: #E55753}
+*.waitingPaused {color: #FAAB3C}
+*.runningActive {color: #428BCA} /*dark blue*/
+*.pending {color: #5BC0DE}       /*light blue*/
 
 /*
 .list-group-item{
@@ -56,14 +58,9 @@ table th, table td {
 }
 
 table td{font-size: small;}
-table td:nth-child(2) {padding-left: 5px;}
 table tr.odd {background-color: #ddd;}
 table tr.even {background-color: white;}
 
-/*
-table tr.odd.hover{
-	background-color: #DDFF75;
-}*/
 table tr.hover{
 	background-color: #DDFF75 !important;
 }

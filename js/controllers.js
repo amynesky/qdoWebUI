@@ -66,6 +66,9 @@ epbControllers.controller('userhomeCtrl',
         $scope.inProgress = function(queue) {return !$scope.succeeded(queue) && !$scope.failed(queue) && $scope.ntasks(queue) > 0;};
 
 
+        $scope.isActive = function(queue){return queue["state"]=="Active";};
+        $scope.isPaused = function(queue){return queue["state"]=="Paused";};
+
         $scope.logOut = function(){
           $location.path( '/home' );
           $rootScope.$on("$locationChangeSuccess", function(event) { 
@@ -92,6 +95,15 @@ epbControllers.controller('queueCtrl',
         $scope.queuename = $stateParams.queuename;
         $scope.queue = queue;
         $scope.queueTaskDetails = queueTaskDetails;
+
+        $scope.showTaskDetailsTable = false;
+        $scope.showHideTaskDetailsTable = function(){
+            if($scope.showTaskDetailsTable == false){
+                $scope.showTaskDetailsTable = true;
+            }else{
+                $scope.showTaskDetailsTable = false;
+            };
+        };
 
         $scope.ntasks = function(queue) {
             var totaltasks = 0;
@@ -125,18 +137,47 @@ epbControllers.controller('queueCtrl',
 
         $scope.goToUserhomePage = function(){$location.path( '/home/' + $scope.username );};
 
-        $scope.pause = function(){QueueFactory.pause($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Paused";});};
-        $scope.resume = function(){QueueFactory.resume($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active";});};
-        $scope.retry = function(){QueueFactory.retry($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active"; });};
-        $scope.rerun = function(){QueueFactory.rerun($scope.username, $scope.queuename).success(function(data, status, headers, config) {$scope.queue["state"] = "Active"; });};
-
-        $scope.showTaskDetailsTable = false;
-        $scope.showHideTaskDetailsTable = function(){
-            if($scope.showTaskDetailsTable == false){
-                $scope.showTaskDetailsTable = true;
-            }else{
-                $scope.showTaskDetailsTable = false;
-            };
+        $scope.pause = function(){
+            QueueFactory.pause($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                QueueFactory.getQueue($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                    $scope.queue = data;
+                });
+                QueueFactory.getQueueTaskDetails($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                    $scope.queueTaskDetails = data.tasks;
+                });
+            });
         };
+        $scope.resume = function(){
+            QueueFactory.resume($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                QueueFactory.getQueue($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                    $scope.queue = data;
+                });
+                QueueFactory.getQueueTaskDetails($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                    $scope.queueTaskDetails = data.tasks;
+                });
+            });
+        };
+        $scope.retry = function(){
+            QueueFactory.retry($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                QueueFactory.getQueue($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                    $scope.queue = data;
+                });
+                QueueFactory.getQueueTaskDetails($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                    $scope.queueTaskDetails = data.tasks;
+                });
+            });
+        };
+        $scope.rerun = function(){
+            QueueFactory.rerun($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                QueueFactory.getQueue($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                    $scope.queue = data;
+                });
+                QueueFactory.getQueueTaskDetails($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                    $scope.queueTaskDetails = data.tasks;
+                });
+            });
+        };
+
+
 
 });

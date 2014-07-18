@@ -63,7 +63,13 @@ epbControllers.controller('userhomeCtrl',
         };
         $scope.succeeded = function(queue) {return $scope.percent(queue, "Succeeded") == 100;};
         $scope.failed = function(queue) {return $scope.percent(queue, "Failed") > 0;};
-        $scope.inProgress = function(queue) {return !$scope.succeeded(queue) && !$scope.failed(queue) && $scope.ntasks(queue) > 0;};
+        $scope.inProgress = function(queue) {
+            if($scope.ntasks(queue)>0){
+                return !$scope.succeeded(queue) && !$scope.failed(queue) && $scope.ntasks(queue) > 0;
+            }else{
+                return true;
+            };
+        };
 
 
         $scope.isActive = function(queue){return queue["state"]=="Active";};
@@ -123,7 +129,13 @@ epbControllers.controller('queueCtrl',
         };
         $scope.succeeded = function(queue) {return $scope.percent(queue, "Succeeded") == 100;};
         $scope.failed = function(queue) {return $scope.percent(queue, "Failed") > 0;};
-        $scope.inProgress = function(queue) {return !$scope.succeeded(queue) && !$scope.failed(queue) && $scope.ntasks(queue) > 0;};
+        $scope.inProgress = function(queue) {
+            if($scope.ntasks(queue)>0){
+                return !$scope.succeeded(queue) && !$scope.failed(queue) && $scope.ntasks(queue) > 0;
+            }else{
+                return true;
+            };
+        };
 
         $scope.isActive = function(queue){return queue["state"]=="Active";};
         $scope.isPaused = function(queue){return queue["state"]=="Paused";};

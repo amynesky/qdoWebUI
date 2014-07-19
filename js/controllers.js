@@ -1,11 +1,11 @@
 'use strict';
 
-/* Controllers */
-var epbControllers = angular.module('qdControllers', []);
+/* Controqdors */
+var qdoControllers = angular.module('qdoControllers', []);
 
 
 /* controller for homepage */
-epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, localStorageService, Auth) {
+qdoControllers.controller('homeCtrl', function ($scope, $rootScope, $location, localStorageService, Auth) {
 
         $scope.logIn = function (){
             //if(!$rootScope.token){ /*if you don't already have a token stored in the localStorage, get one*/
@@ -34,7 +34,7 @@ epbControllers.controller('homeCtrl', function ($scope, $rootScope, $location, l
 });
 
 /* controller for userhome */
-epbControllers.controller('userhomeCtrl', 
+qdoControllers.controller('userhomeCtrl', 
     function ($scope, $rootScope, $stateParams, $location, QueueFactory, localStorageService, queues) {
        
         $scope.username = $stateParams.username;
@@ -82,6 +82,15 @@ epbControllers.controller('userhomeCtrl',
           });
         };
 
+        $scope.deleteQueue = function(queuename){
+            QueueFactory.deleteQueue($scope.username, queuename).success(function(data, status, headers, config) {
+                QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
+                    $scope.queues = data.queues;
+                });
+
+            });
+        };
+
 
         
     });
@@ -94,7 +103,7 @@ epbControllers.controller('userhomeCtrl',
 
 
 /* controller for queuepage */
-epbControllers.controller('queueCtrl', 
+qdoControllers.controller('queueCtrl', 
     function ($scope, $rootScope, $stateParams, $location, QueueFactory, localStorageService, queue, queueTaskDetails) {
        
         $scope.username = $stateParams.username;

@@ -1,12 +1,12 @@
 'use strict'
 
-var qdServices = angular.module('qdServices', ['ngResource']);
+var qdoServices = angular.module('qdoServices', ['ngResource']);
 
 
 
 
 
-qdServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base64, $cookieStore, $http) {
+qdoServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base64, $cookieStore, $http) {
     // initialize to whatever is in the cookie, if anything
     //$http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
  
@@ -30,7 +30,7 @@ qdServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base6
 
 
 //retrieves the qdo queues
-qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function ($base64, $rootScope, $http) {
+qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function ($base64, $rootScope, $http) {
   return {
       getQueues: function (username) {
           //console.log($rootScope.token);
@@ -83,7 +83,6 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
            return $http({
               method: 'PUT', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + '/retry', 
-              data : 'state=Active',
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -94,7 +93,16 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
            return $http({
               method: 'PUT', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + '/rerun', 
-              data : 'state=Active',
+              headers: {
+                'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+            });
+      },
+      deleteQueue: function(username, queuename){
+           return $http({
+              method: 'DELETE', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -114,7 +122,7 @@ qdServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function (
 
 
 //intercepts 401 responses and redirects to the login page
-qdServices.factory('httpInterceptor', function httpInterceptor ($q, $window, $location) {
+qdoServices.factory('httpInterceptor', function httpInterceptor ($q, $window, $location) {
   return function (promise) {
       var success = function (response) {
           return response;
@@ -133,7 +141,7 @@ qdServices.factory('httpInterceptor', function httpInterceptor ($q, $window, $lo
 });
 
 //adds the auth token to all API calls
-qdServices.factory('api', function ($http, $cookies) {
+qdoServices.factory('api', function ($http, $cookies) {
   return {
       init: function (token) {
           $http.defaults.headers.common['X-Access-Token'] = token || $cookies.token;
@@ -143,7 +151,7 @@ qdServices.factory('api', function ($http, $cookies) {
 
 
 //calls the API to login
-qdServices.factory('authorization', function ($http) {
+qdoServices.factory('authorization', function ($http) {
   return {
       login: function (credentials) {
           return $http.post('http://0.0.0.0:8080/api/v1/token', credentials);

@@ -1,16 +1,17 @@
 'use strict';
 
-/* App Module */
+/* qdoApp Module */
 
 var qdoApp = angular.module('qdoApp', [
-  'qdControllers',
-  'qdServices',
+  'qdoControllers',
+  'qdoServices',
   'qdoDirectives',
   'ui.router',
   'ui.bootstrap',
   'ui.select2',
   'ngCookies',
   'base64',
+  'ngDialog',
   'LocalStorageModule',
   'ngSanitize'
 ]).run(

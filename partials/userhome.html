@@ -64,8 +64,10 @@
   <div class= "ng-modal-dialog">
     <div class = "ng-modal-dialog-content">
       <p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p>
-      <button class="failed" type="button" ng-click="deleteQueue(queuename)"> Delete</button>
-      <button type="button" ng-click="closeDeleteModal()"> Cancel</button>
+      <span class="pull-right">
+        <button class="failed" type="button" ng-click="deleteQueue(queuename)"> Delete</button>
+        <button type="button" ng-click="closeDeleteModal()"> Cancel</button>
+      </span>
     </div>
   </div>
 </script>
@@ -75,8 +77,10 @@
     <div class = "ng-modal-dialog-content">
       <p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p>
       <p class="failed">WARNING: This queue has unfinished tasks.</p>
-      <button class="failed" type="button" ng-click="deleteQueue(queuename)"> Delete</button>
-      <button type="button" ng-click="closeDeleteModal()"> Cancel</button>
+      <span class="pull-right">
+        <button class="failed" type="button" ng-click="deleteQueue(queuename)" style="margin-bottom:10px;"> Delete</button>
+        <button type="button" ng-click="closeDeleteModal()" style="margin-bottom:10px;"> Cancel</button>
+      </span>
     </div>
   </div>
 </script>

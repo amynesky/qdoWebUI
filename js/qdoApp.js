@@ -77,10 +77,12 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
                   $rootScope.credentialsAuthorized = false;
                   $rootScope.loading = false;
                   $location.path( '/home' );
+                  /*
                   $rootScope.$on("$locationChangeSuccess", function(event) { 
                       localStorageService.remove("token");
                       console.log("cleared token from local storage");
                   });
+                  */
               });
                return d.promise;
            }]
@@ -104,10 +106,12 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
                   $rootScope.credentialsAuthorized = false;
                   $rootScope.loading = false;
                   $location.path( '/home' );
+                  /*
                   $rootScope.$on("$locationChangeSuccess", function(event) { 
                       localStorageService.remove("token");
                       console.log("cleared token from local storage");
                   });
+                  */
               });
                return d.promise;
            }],
@@ -124,10 +128,12 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
                   $rootScope.credentialsAuthorized = false;
                   $rootScope.loading = false;
                   $location.path( '/home' );
+                  /*
                   $rootScope.$on("$locationChangeSuccess", function(event) { 
                       localStorageService.remove("token");
                       console.log("cleared token from local storage");
                   });
+                  */
               });
                return d.promise;
            }]

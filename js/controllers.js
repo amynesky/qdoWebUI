@@ -28,17 +28,19 @@ qdoControllers.controller('homeCtrl', function ($scope, $rootScope, $location, l
 
 
         $scope.error = "Whoops! Please try logging in again." ;
-        
-
 
 });
+
+
+
+
 
 /* controller for userhome */
 qdoControllers.controller('userhomeCtrl', 
     function ($scope, $rootScope, $stateParams, $location, QueueFactory, localStorageService, queues) {
        
         $scope.username = $stateParams.username;
-        $scope.queues = queues;
+        $rootScope.queues = queues;
         var pointer = 0;
         for ( var i=0; i < queues.length; i++) { 
           pointer += 1;
@@ -82,14 +84,21 @@ qdoControllers.controller('userhomeCtrl',
           });
         };
 
-        $scope.deleteQueue = function(queuename){
-            QueueFactory.deleteQueue($scope.username, queuename).success(function(data, status, headers, config) {
-                QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
-                    $scope.queues = data.queues;
-                });
+        $scope.storeQueueName = function (queuename) {
+            $rootScope.queuename = queuename;
+            console.log("queuename stored:");
+            console.log($rootScope.queuename);
+        };
 
+        $scope.createQueue = function () {
+            QueueFactory.createQueue($scope.username, $scope.newQueueName).success(function(data, status, headers, config) {
+                QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
+                        $rootScope.queues = data.queues;
+                });
             });
         };
+
+
 
 
         
@@ -98,6 +107,26 @@ qdoControllers.controller('userhomeCtrl',
 
 
 
+
+/* controller for Delete Modal Window */
+qdoControllers.controller('deleteQueueController', function($scope, $rootScope, $stateParams, QueueFactory, ngDialog) {
+
+    $scope.username = $stateParams.username;
+
+    $scope.deleteQueue = function(queuename){
+        QueueFactory.deleteQueue($scope.username, queuename).success(function(data, status, headers, config) {
+            QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
+                $rootScope.queues = data.queues;
+            });
+
+        });
+    };
+
+        $scope.closeDeleteModal = function () {
+            ngDialog.close();
+        };
+
+});
 
 
 
@@ -199,6 +228,16 @@ qdoControllers.controller('queueCtrl',
             });
         };
 
+        $scope.addTask = function () {
+            QueueFactory.addTask($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                QueueFactory.getQueue($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                    $scope.queue = data;
+                });
+                QueueFactory.getQueueTaskDetails($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+                    $scope.queueTaskDetails = data.tasks;
+                });
+            });
+        };
 
 
 });

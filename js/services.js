@@ -109,6 +109,26 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
               },
             });
       },
+      createQueue: function(username, queuename){
+           return $http({
+              method: 'POST', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
+              headers: {
+                'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+            });
+      },
+      addTask: function(username, queuename){
+           return $http({
+              method: 'POST', 
+              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/", 
+              headers: {
+                'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
+                'Content-Type': 'application/x-www-form-urlencoded'
+              },
+            });
+      },
   }
 }]);
 

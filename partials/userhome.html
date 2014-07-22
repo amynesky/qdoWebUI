@@ -18,12 +18,14 @@
           </span>
 
           <a ng-href="./qdo.html#/home/{{username}}/{{queue.name}}"> {{ queue.name }} </a>
+
           <span ng-if="succeeded(queue)" >
             <button type="button" ng-dialog="deleteSuccessfulQueueModal" ng-dialog-controller="deleteQueueController" ng-dialog-show-close="false" class="pull-right glyphicon glyphicon-remove failed" ng-click="storeQueueName(queue.name)"></button>
           </span>
           <span ng-if="!succeeded(queue)" >
             <button type="button" ng-dialog="deleteModal" ng-dialog-controller="deleteQueueController" ng-dialog-show-close="false" class="pull-right glyphicon glyphicon-remove failed" ng-click="storeQueueName(queue.name)"></button>
           </span>  
+          
           <div class="progress pull-right" style="width: 80%">
             <div class="progress-bar progress-bar-success" style="width: {{ percent(queue, 'Succeeded') }}%">
               <span>{{ queue["ntasks"]["Succeeded"] }}</span>
@@ -59,7 +61,7 @@
 
 
 
-<!-- DELETE MODAL WINDOW-->
+<!-- DELETE MODAL WINDOWs-->
 <script type="text/ng-template" id="deleteSuccessfulQueueModal">
   <div class= "ng-modal-dialog">
     <div class = "ng-modal-dialog-content">

@@ -5,16 +5,26 @@
 *.runningActive {color: #428BCA} /*dark blue*/
 *.pending {color: #5BC0DE}       /*light blue*/
 
-/*
-.list-group-item{
-	display: inline;
+.ng-modal-dialog {
+  /* A centered div above the overlay with a box shadow. */
+  z-index:10000;
+  position: absolute;
+  width: 50%; /* Default */
 
-}
+  /* Center the dialog */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
 
-.white, .white a  {
-  color: #ffffff;
+  background-color: #fff;
+  box-shadow: 4px 4px 80px #000;
 }
-*/
+.ng-modal-dialog-content {
+  padding:10px;
+  text-align: left;
+}
 
 
 button{

@@ -86,8 +86,6 @@ qdoControllers.controller('userhomeCtrl',
 
         $scope.storeQueueName = function (queuename) {
             $rootScope.queuename = queuename;
-            console.log("queuename stored:");
-            console.log($rootScope.queuename);
         };
 
         $scope.createQueue = function () {

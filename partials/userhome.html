@@ -61,16 +61,24 @@
 
 <!-- DELETE MODAL WINDOW-->
 <script type="text/ng-template" id="deleteSuccessfulQueueModal">
-<p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p>
-<button class="failed" type="button" ng-click="deleteQueue(queuename)"> Delete</button>
-<button type="button" ng-click="closeDeleteModal()"> Cancel</button>
+  <div class= "ng-modal-dialog">
+    <div class = "ng-modal-dialog-content">
+      <p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p>
+      <button class="failed" type="button" ng-click="deleteQueue(queuename)"> Delete</button>
+      <button type="button" ng-click="closeDeleteModal()"> Cancel</button>
+    </div>
+  </div>
 </script>
 
 <script type="text/ng-template" id="deleteModal">
-<p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p>
-<p class="failed">WARNING: This queue has unfinished tasks.</p>
-<button class="failed" type="button" ng-click="deleteQueue(queuename)"> Delete</button>
-<button type="button" ng-click="closeDeleteModal()"> Cancel</button>
+  <div class= "ng-modal-dialog">
+    <div class = "ng-modal-dialog-content">
+      <p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p>
+      <p class="failed">WARNING: This queue has unfinished tasks.</p>
+      <button class="failed" type="button" ng-click="deleteQueue(queuename)"> Delete</button>
+      <button type="button" ng-click="closeDeleteModal()"> Cancel</button>
+    </div>
+  </div>
 </script>
 
 

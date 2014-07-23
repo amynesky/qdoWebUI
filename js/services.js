@@ -119,10 +119,11 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
               },
             });
       },
-      addTask: function(username, queuename){
+      addTask: function(username, queuename, task){
            return $http({
               method: 'POST', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/", 
+              data : 'stask=' + task,
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
                 'Content-Type': 'application/x-www-form-urlencoded'

@@ -228,7 +228,7 @@ qdoControllers.controller('queueCtrl',
         };
 
         $scope.addTask = function () {
-            QueueFactory.addTask($scope.username, $scope.queuename).success(function(data, status, headers, config) {
+            QueueFactory.addTask($scope.username, $scope.queuename, $scope.newTask).success(function(data, status, headers, config) {
                 QueueFactory.getQueue($scope.username, $scope.queuename).success(function(data, status, headers, config) {
                     $scope.queue = data;
                 });

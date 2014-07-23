@@ -3,8 +3,8 @@
   <script src="js/queueTaskDetailsDataTable.js"></script>
   <link href="./css/datatables.css" rel="stylesheet">
 
-<button style="float:right" ng-click="logOut()" >Log out</button>
-<button style="float:right" ng-click="goToUserhomePage()" >Home</button>
+<button class="glyphicon text" style="float:right; margin-left:5px;" ng-click="logOut()" >Log out</button>
+<button class="glyphicon text" style="float:right" ng-click="goToUserhomePage()" >Home</button>
 <h1 style="margin-bottom:3px;">{{username}}'s {{ queue.name }} queue</h1>
 <p class="lead" style="margin-bottom:3px;">{{ queue.name }} is 
   <span ng-if= "isPaused(queue)">
@@ -60,15 +60,15 @@
     </li>
 </ul>
 <div style = "display:block;" >
-    <button type="button" ng-click="rerun()"> <span class="glyphicon glyphicon-repeat runningActive"></span> Rerun all tasks</button>
+    <button class="glyphicon text" type="button" ng-click="rerun()"> <span class="glyphicon-repeat runningActive"></span> Rerun all tasks</button>
   <span ng-if= "isActive(queue)" >
-      <button type="button" ng-click="pause()"> <span class="glyphicon glyphicon-pause waitingPaused"></span> Pause queue</button>
+      <button class="glyphicon text" type="button" ng-click="pause()"> <span class="glyphicon-pause waitingPaused"></span> Pause queue</button>
   </span>
   <span ng-if= "isPaused(queue)" >
-      <button type="button" ng-click="resume()"><span class="glyphicon glyphicon-play runningActive"></span> Resume queue</button>
+      <button class="glyphicon text" type="button" ng-click="resume()"><span class="glyphicon-play runningActive"></span> Resume queue</button>
   </span>
   <span ng-if= "failed(queue)" >
-      <button type="button" ng-click="retry()"> <span class="glyphicon glyphicon-refresh runningActive"></span> Retry failed tasks</button>
+      <button class="glyphicon text" type="button" ng-click="retry()"> <span class="glyphicon-refresh runningActive"></span> Retry failed tasks</button>
   </span>
   <span style = "float: right;">
     Key: 
@@ -86,14 +86,14 @@
 <div style = "display:block; margin-top:10px;">
   <p>Enter a task below and hit "Add Task" to add a task to the {{queue.name}} queue.</p>
    <input type="text" ng-model="newTask">
-    <button ng-click="addTask()" >Add Task</button>
+    <button class="glyphicon text" ng-click="addTask()" >Add Task</button>
 </div>
 
 
 
 
 <div>
-  <button style="margin-top:20px;" class="lead" type="button" ng-click="showHideTaskDetailsTable()"> Task Details:</button>
+  <button style="margin-top:10px;" class="glyphicon text" type="button" ng-click="showHideTaskDetailsTable()"> Task Details:</button>
   <div ng-if="showTaskDetailsTable" class= "container">
 
     <table project-table id="queueTaskDetailsTable" aa-data="queueTaskDetails" class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" >

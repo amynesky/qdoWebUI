@@ -1,4 +1,4 @@
-<button style="float:right" ng-click="logOut()" >Log out</button>
+<button class="glyphicon text" style="float:right" ng-click="logOut()" >Log out</button>
 <h1>Hello {{username}}, you have {{nqueues}} queues.</h1>
     <p class="lead"> Click on the name of a queue to see a details page for that queue. </p>
     <ul class="list-group">
@@ -20,10 +20,10 @@
           <a ng-href="./qdo.html#/home/{{username}}/{{queue.name}}"> {{ queue.name }} </a>
 
           <span ng-if="succeeded(queue)" >
-            <button type="button" ng-dialog="deleteSuccessfulQueueModal" ng-dialog-controller="deleteQueueController" ng-dialog-show-close="false" class="pull-right glyphicon glyphicon-remove failed" ng-click="storeQueueName(queue.name)"></button>
+            <button type="button" ng-dialog="deleteSuccessfulQueueModal" ng-dialog-controller="deleteQueueController" ng-dialog-show-close="false" class="pull-right glyphicon glyphicon-remove failed" ng-click="storeQueueName(queue.name)" style="margin-left:5px;"></button>
           </span>
           <span ng-if="!succeeded(queue)" >
-            <button type="button" ng-dialog="deleteModal" ng-dialog-controller="deleteQueueController" ng-dialog-show-close="false" class="pull-right glyphicon glyphicon-remove failed" ng-click="storeQueueName(queue.name)"></button>
+            <button type="button" ng-dialog="deleteModal" ng-dialog-controller="deleteQueueController" ng-dialog-show-close="false" class="pull-right glyphicon glyphicon-remove failed" ng-click="storeQueueName(queue.name)" style="margin-left:5px;"></button>
           </span>  
           
           <div class="progress pull-right" style="width: 80%">
@@ -56,7 +56,7 @@
 <span class="pull-left">
   <p>Enter a new queue name below and hit "Create Queue" to get started with a fresh queue.</p>
   <input type="text" ng-model="newQueueName">
-  <button ng-click="createQueue()" >Create Queue</button>
+  <button class="glyphicon text"  ng-click="createQueue()" >Create Queue</button>
 </span>
 
 
@@ -67,8 +67,8 @@
     <div class = "ng-modal-dialog-content">
       <p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p>
       <span class="pull-right">
-        <button class="failed" type="button" ng-click="deleteQueue(queuename)"> Delete</button>
-        <button type="button" ng-click="closeDeleteModal()"> Cancel</button>
+        <button class="glyphicon failed text" type="button" ng-click="deleteQueue(queuename)"> Delete</button>
+        <button class="glyphicon text" type="button" ng-click="closeDeleteModal()"> Cancel</button>
       </span>
     </div>
   </div>
@@ -80,8 +80,8 @@
       <p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p>
       <p class="failed">WARNING: This queue has unfinished tasks.</p>
       <span class="pull-right">
-        <button class="failed" type="button" ng-click="deleteQueue(queuename)" style="margin-bottom:10px;"> Delete</button>
-        <button type="button" ng-click="closeDeleteModal()" style="margin-bottom:10px;"> Cancel</button>
+        <button class="glyphicon failed text" type="button" ng-click="deleteQueue(queuename)" style="margin-bottom:10px;"> Delete</button>
+        <button class="glyphicon text" type="button" ng-click="closeDeleteModal()" style="margin-bottom:10px;"> Cancel</button>
       </span>
     </div>
   </div>

@@ -59,8 +59,8 @@
       
     </li>
 </ul>
-<div style = "display:block;">
-  <span class="pull-right">
+<div style = "display:block;" >
+  <span style = "float: right;">
     Key: 
     <span class="successful">Succeeded</span>
     <span class="runningActive">Running</span>
@@ -68,17 +68,17 @@
     <span class="failed">Failed</span>
     <span class="pending">Pending</span>
   </span>
-
-  <span class="pull-left">Enter a task below and hit "Add Task" to add a task to the {{queue.name}} queue.</span>
-
+  <p>Enter a task below and hit "Add Task" to add a task to the {{queue.name}} queue.</p>
 </div>
+
+
 
 <div style = "display:block;">
-  <span>
    <input type="text" ng-model="newTask">
     <button ng-click="addTask()" >Add Task</button>
-  </span>
 </div>
+
+
 
 <div style = "display:block;">
   <button type="button" ng-click="rerun()"> <span class="glyphicon glyphicon-repeat runningActive"></span> Rerun all tasks</button>

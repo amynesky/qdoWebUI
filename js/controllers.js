@@ -115,6 +115,7 @@ qdoControllers.controller('deleteQueueController', function($scope, $rootScope, 
         QueueFactory.deleteQueue($scope.username, queuename).success(function(data, status, headers, config) {
             QueueFactory.getQueues($scope.username).success(function(data, status, headers, config) {
                 $rootScope.queues = data.queues;
+                ngDialog.close();
             });
 
         });

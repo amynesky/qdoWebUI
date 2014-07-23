@@ -85,8 +85,10 @@
 
 <div style = "display:block; margin-top:10px;">
   <p>Enter a task below and hit "Add Task" to add a task to the {{queue.name}} queue.</p>
-   <input type="text" ng-model="newTask">
+  <form ng-submit="addTask()">
+    <input type="text" ng-model="newTask">
     <button class="glyphicon text" ng-click="addTask()" >Add Task</button>
+  <form>
 </div>
 
 

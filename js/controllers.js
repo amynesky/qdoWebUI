@@ -1,7 +1,11 @@
 'use strict';
 
-/* Controqdors */
+/* Controllers allow you make javascript helper functions */
 var qdoControllers = angular.module('qdoControllers', []);
+
+//think of $scope as global variables for a given page template
+//think of $rootScope variables as global variables across all templates
+//I beleive $stateParams refers to 
 
 
 /* controller for homepage */
@@ -227,8 +231,19 @@ qdoControllers.controller('queueCtrl',
             });
         };
 
+        $scope.newPriority = function(){
+            console.log($scope.priority);
+            if($scope.priority){
+                $scope.newPriority = $scope.priority;
+            }else{
+                $scope.newPriority = 0
+            };
+            console.log($scope.newPriority);
+        };
+
         $scope.addTask = function () {
-            QueueFactory.addTask($scope.username, $scope.queuename, $scope.newTask).success(function(data, status, headers, config) {
+            $scope.newPriority();
+            QueueFactory.addTask($scope.username, $scope.queuename, $scope.newTask, $scope.newPriority).success(function(data, status, headers, config) {
                 QueueFactory.getQueue($scope.username, $scope.queuename).success(function(data, status, headers, config) {
                     $scope.queue = data;
                 });

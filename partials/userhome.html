@@ -1,10 +1,10 @@
 <button class="glyphicon text" style="float:right" ng-click="logOut()" >Log out</button>
-<h1>Hello {{username}}, you have {{nqueues}} queues.</h1>
+<h1>Hello {{username}}, you have {{nqueues}} queues.</h1><!--curly brackets surround javascript code-->
     <p class="lead"> Click on the name of a queue to see a details page for that queue. </p>
     <ul class="list-group">
-        <li ng-repeat="queue in queues" class="list-group-item">
+        <li ng-repeat="queue in queues" class="list-group-item"><!--ng-repeat is an angularjs directive for 'while.' queues is a javascript $scope variable-->
 
-          <span ng-if="succeeded(queue)" >
+          <span ng-if="succeeded(queue)" ><!--ng-if is an angularjs directive. succeeded is a javascript $scope function-->
             <span class="glyphicon glyphicon-ok successful"></span>
           </span>
           <span ng-if= "failed(queue)" >
@@ -19,6 +19,7 @@
 
           <a ng-href="./qdo.html#/home/{{username}}/{{queue.name}}"> {{ queue.name }} </a>
 
+          <!---->
           <span ng-if="succeeded(queue) || ntasks(queue)==0" >
             <button type="button" ng-dialog="deleteSuccessfulQueueModal" ng-dialog-controller="deleteQueueController" ng-dialog-show-close="false" class="pull-right glyphicon glyphicon-remove failed" ng-click="storeQueueName(queue.name)" style="margin-left:5px;"></button>
           </span>
@@ -55,7 +56,7 @@
 </div>
 <span class="pull-left">
   <p>Enter a new queue name below and hit "Create Queue" to get started with a fresh queue.</p>
-  <form ng-submit="createQueue()">
+  <form ng-submit="">
     <input type="text" ng-model="newQueueName">
     <button class="glyphicon text"  ng-click="createQueue()" >Create Queue</button>
   </form>

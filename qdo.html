@@ -1,5 +1,6 @@
+<!--this file contains the html code for the main page. Any code here pertains to all other templates-->
 <!doctype html>
-<html lang="en" ng-app="qdoApp">
+<html lang="en" ng-app="qdoApp"><!--tells the page which is the main javascript file-->
 <head>
   <meta charset="utf-8">
     <title>qdo</title>
@@ -38,11 +39,9 @@
 </head>
 <body>
   <div class= "container">     
-    <img style="margin-top:10px;"src="images/qdo_logo.png"/>
-    <img ng-show="loading" src="images/loading.gif" style="margin-left:25px;"></img>
-    <div ui-view></div>
-    <p></p>
-    <!--<p>Certain features of this website function best when using Chrome.</p>-->
+    <img style="margin-top:10px;" src="images/qdo_logo.png"/>
+    <img ng-show="loading" src="images/loading.gif" style="margin-left:25px;"></img><!--ng-show will show the html element if the value is true-->
+    <div style="margin-bottom:10px;"ui-view></div><!--ui-view is an angular directive saying place the code for other templates here-->
   </div>
   
  

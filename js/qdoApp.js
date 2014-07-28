@@ -1,8 +1,9 @@
 'use strict';
 
 /* qdoApp Module */
+//This is the main javascript file, Think of this file as the conductor for all the other javascript files
 
-var qdoApp = angular.module('qdoApp', [
+var qdoApp = angular.module('qdoApp', [ //tell quoApp about any javascript modules (directives, controllers, services) here:
   'qdoControllers',
   'qdoServices',
   'qdoDirectives',
@@ -14,10 +15,10 @@ var qdoApp = angular.module('qdoApp', [
   'ngDialog',
   'LocalStorageModule',
   'ngSanitize'
-]).run(
+]).run(//'inject' all kinds of objects you are going to use, think of this as giving angularJS a heads up.
       [ '$rootScope', '$state', '$stateParams', 'localStorageService', 
       function ($rootScope,   $state,   $stateParams, localStorageService) {
-
+        //upon first load do all of the things below
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         //navigation template locations
@@ -28,10 +29,12 @@ var qdoApp = angular.module('qdoApp', [
         currentDate = currentDate.getFullYear() + "-" + currentDate.getMonth() + "-" + currentDate.getDay()  + " " 
                       + currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds() 
                       + "." + currentDate.getMilliseconds();
-        currentDate = Date.parse(currentDate);                   
+        currentDate = Date.parse(currentDate);
+        //localstorage is an angularjs library                   
         if(localStorageService.get("token") && Date.parse(localStorageService.get("token")["expiration"]) > currentDate){ 
             $rootScope.token = localStorageService.get("token")["token"];
-            console.log("grabbing token from local storage");
+            //console.log("grabbing token from local storage");
+            //console.log($rootScope.token);
         }
 
         $rootScope.credentialsAuthorized = true;
@@ -44,7 +47,7 @@ var qdoApp = angular.module('qdoApp', [
 
 
 // client side routing
-qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
+qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){//'inject' all kinds of objects you are going to use, think of this as giving angularJS a heads up.
 
   $httpProvider.responseInterceptors.push('httpInterceptor');
 
@@ -53,26 +56,27 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
   $urlRouterProvider.otherwise("/home")
   
   $stateProvider
-    .state('home', {
+    .state('home', {//tell angularjs about all the different templates you have here, what their url is and what controller they talk to.
         url: "/home",
         templateUrl: "partials/home.html",
         controller: 'homeCtrl',
     })
     .state('userhome', {
-        url: "/home/:username",
+        url: "/home/:username",//username is a $stateParam
         templateUrl: "partials/userhome.html",
         controller: 'userhomeCtrl',
 
-        resolve: {
-          
+        resolve: { //resolve tells angularjs to stall loading the template until 'this' stuff has finished
+          //'inject' all kinds of objects you are going to use, think of this as giving angularJS a heads up.
           queues: ['$q', 'QueueFactory', '$stateParams', '$rootScope', '$location', 'localStorageService', function($q, QueueFactory, $stateParams, $rootScope, $location, localStorageService){
               $rootScope.loading = true;
               var d = $q.defer();
-              
-              QueueFactory.getQueues($stateParams.username).success(function(data, status, headers, config) {
+              //queuefactory is a set of service functions, getQueues is one of the queuefactory functions
+              QueueFactory.getQueues($stateParams.username).success(function(data, status, headers, config) {//'inject' all kinds of objects you are going to use, think of this as giving angularJS a heads up.
+                  //if the getQueues function is successful.. do the following
                   d.resolve(data.queues);
                   $rootScope.loading = false;
-              }).error(function(data, status, headers, config) {
+              }).error(function(data, status, headers, config) {//if the getQueues function fails..do the following
                   console.log("error: could not retreive queues.");
                   $rootScope.credentialsAuthorized = false;
                   $rootScope.loading = false;
@@ -89,10 +93,10 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
         }
     })
     .state('queue', {
-        url: "/home/:username/:queuename",
+        url: "/home/:username/:queuename",//username and queuename are $stateParams
         templateUrl: "partials/queue.html",
         controller: 'queueCtrl',
-        resolve: {
+        resolve: {//resolve tells angularjs to stall loading the template until 'this' stuff has finished
           
           queue: ['$q', 'QueueFactory', '$stateParams', '$rootScope', '$location', 'localStorageService', function($q, QueueFactory, $stateParams, $rootScope, $location, localStorageService){
             $rootScope.loading = true;

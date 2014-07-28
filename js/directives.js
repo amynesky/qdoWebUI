@@ -1,6 +1,6 @@
 var qdoDirectives = angular.module('qdoDirectives', []);
 
-
+//directives are markers on a DOM element that tell AngularJS's HTML compiler to attach a specified behavior to that DOM element or even transform the DOM element and its children
 
 //the directive for creating a jquery datatable
 qdoDirectives.directive('projectTable', function($compile, $rootScope) {

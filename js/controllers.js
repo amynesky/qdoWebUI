@@ -232,13 +232,13 @@ qdoControllers.controller('queueCtrl',
         };
 
         $scope.newPriority = function(){
-            console.log($scope.priority);
+            //console.log($scope.priority);
             if($scope.priority){
                 $scope.newPriority = $scope.priority;
             }else{
                 $scope.newPriority = 0
             };
-            console.log($scope.newPriority);
+            //console.log($scope.newPriority);
         };
 
         $scope.addTask = function () {

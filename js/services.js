@@ -113,12 +113,11 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
             });
       },
       addTask: function(username, queuename, task, priority){
-            console.log(task);
-            console.log(priority);
            return $http({
               method: 'POST', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/", 
-              data : 'task=' + task,
+              data : 'task=' + task + "&priority=" + priority,
+              //data : 'task=' + task,
               //data : 'priority=' + priority, // tried just adding a second data entry
               //data : 'task=' + task + ', priority=' + priority,
               //data : {'task' : task, 'priority' : priority},

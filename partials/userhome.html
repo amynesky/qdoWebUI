@@ -1,34 +1,44 @@
+<!--html template for the user home page displaying a list of all the queues. child html template or 'partial html'-->
+
+
 <button class="glyphicon text" style="float:right" ng-click="logOut()" >Log out</button>
+<!--ng-click is an angular directive used to called a controller function-->
 <h1>Hello {{username}}, you have {{nqueues}} queues.</h1><!--curly brackets surround javascript code-->
     <p class="lead"> Click on the name of a queue to see a details page for that queue. </p>
+
+
+
+    <!--The below section of code pertains to the list of progress bars-->
     <ul class="list-group">
         <li ng-repeat="queue in queues" class="list-group-item"><!--ng-repeat is an angularjs directive for 'while.' queues is a javascript $scope variable-->
-
-          <span ng-if="succeeded(queue)" ><!--ng-if is an angularjs directive. succeeded is a javascript $scope function-->
+          <!--icons depending on queue progress-->
+          <span ng-if="succeeded(queue)" ><!--ng-if is an angularjs directive. succeeded is a javascript $scope function in controllers.js-->
             <span class="glyphicon glyphicon-ok successful"></span>
           </span>
-          <span ng-if= "failed(queue)" >
+          <span ng-if= "failed(queue)" > <!--ng-if is an angularjs directive. failed is a javascript $scope function in controllers.js-->
             <span class="glyphicon glyphicon-warning-sign failed"></span>
           </span>
-          <span ng-if= "inProgress(queue) && isPaused(queue)" >
+          <span ng-if= "inProgress(queue) && isPaused(queue)" > <!--ng-if is an angularjs directive. inProgress/isPaused are javascript $scope functions in controllers.js-->
             <span class="glyphicon glyphicon-road waitingPaused"></span>
           </span>
-          <span ng-if= "inProgress(queue) && isActive(queue)" >
+          <span ng-if= "inProgress(queue) && isActive(queue)" > <!--ng-if is an angularjs directive. inProgress/isActive are javascript $scope functions in controllers.js-->
             <span class="glyphicon glyphicon-road runningActive"></span>
           </span>
+          <!--link to the que details page-->
+          <a ng-href="./qdo.html#/home/{{username}}/{{queue.name}}"> {{ queue.name }} </a> <!--curly brackets surround javascript code-->
 
-          <a ng-href="./qdo.html#/home/{{username}}/{{queue.name}}"> {{ queue.name }} </a>
-
-          <!---->
-          <span ng-if="succeeded(queue) || ntasks(queue)==0" >
+          <!--The below section of code pertains to makes the delete buttons that call a dialog window to appear and grey-out the main window-->
+          <!--ng-dialog is an angular directive that pulls up the dialog template if deleteSucessfulQueueModal/deleteModal is true, a dialog template has it's own controller functions in controllers.js, templates for the two different dialog windows can be found below in scripts-->
+          <span ng-if="succeeded(queue) || ntasks(queue)==0" > <!--ng-if is an angularjs directive. succeeded is a javascript $scope function-->
             <button type="button" ng-dialog="deleteSuccessfulQueueModal" ng-dialog-controller="deleteQueueController" ng-dialog-show-close="false" class="pull-right glyphicon glyphicon-remove failed" ng-click="storeQueueName(queue.name)" style="margin-left:5px;"></button>
-          </span>
-          <span ng-if="!succeeded(queue) && ntasks(queue)>0" >
+          </span><!--ng-click called a controller function-->
+          <span ng-if="!succeeded(queue) && ntasks(queue)>0" > <!--ng-if is an angularjs directive. succeeded is a javascript $scope function-->
             <button type="button" ng-dialog="deleteModal" ng-dialog-controller="deleteQueueController" ng-dialog-show-close="false" class="pull-right glyphicon glyphicon-remove failed" ng-click="storeQueueName(queue.name)" style="margin-left:5px;"></button>
-          </span>  
+          </span><!--ng-click called a controller function-->
           
+          <!--progress bars bootstrap styling-->
           <div class="progress pull-right" style="width: 80%">
-            <div class="progress-bar progress-bar-success" style="width: {{ percent(queue, 'Succeeded') }}%">
+            <div class="progress-bar progress-bar-success" style="width: {{ percent(queue, 'Succeeded') }}%"> <!--curly brackets surround javascript code-->
               <span>{{ queue["ntasks"]["Succeeded"] }}</span>
             </div>
             <div class="progress-bar" style="width: {{ percent(queue, 'Running') }}%"> <!--dark blue-->
@@ -46,7 +56,12 @@
           </div>   
         </li>
     </ul>
-    <div class="pull-right">
+
+
+
+
+<!--color key-->
+<div class="pull-right">
   Key: 
   <span class="successful">Succeeded</span>
   <span class="runningActive">Running</span>
@@ -54,23 +69,27 @@
   <span class="failed">Failed</span>
   <span class="pending">Pending</span>
 </div>
+
+<!--create new queue-->
 <span class="pull-left">
   <p>Enter a new queue name below and hit "Create Queue" to get started with a fresh queue.</p>
-  <form ng-submit="">
-    <input type="text" ng-model="newQueueName">
-    <button class="glyphicon text"  ng-click="createQueue()" >Create Queue</button>
+  <form ng-submit=""> <!--ng-submit is an angularjs directive that allows an input element to do the action caused by on the button when pressing the enter key-->
+    <input type="text" ng-model="newQueueName"> <!--ng-model is an angularJS directive that stores the input in a $scope variable for that template-->
+    <button class="glyphicon text"  ng-click="createQueue()" >Create Queue</button> <!--ng-click called a controller function-->
   </form>
 </span>
 
 
 
 <!-- DELETE MODAL WINDOWs-->
+<!--uses angularjs  ng-modal to create a dialog window-->
 <script type="text/ng-template" id="deleteSuccessfulQueueModal">
   <div class= "ng-modal-dialog">
     <div class = "ng-modal-dialog-content">
-      <p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p>
+      <p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p> <!--curly brackets surround javascript code-->
       <span class="pull-right">
-        <button class="glyphicon failed text" type="button" ng-click="deleteQueue(queuename)" style="margin-bottom:10px;"> Delete</button>
+        <button class="glyphicon failed text" type="button" ng-click="deleteQueue(queuename)" style="margin-bottom:10px;"> Delete</button> 
+        <!--ng-click called a controller function-->
         <button class="glyphicon text" type="button" ng-click="closeDeleteModal()" style="margin-bottom:10px;"> Cancel</button>
       </span>
     </div>
@@ -80,10 +99,11 @@
 <script type="text/ng-template" id="deleteModal">
   <div class= "ng-modal-dialog">
     <div class = "ng-modal-dialog-content">
-      <p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p>
+      <p>Are you sure you want to delete your {{queuename}} queue? This action cannot be undone.</p> <!--curly brackets surround javascript code-->
       <p class="failed">WARNING: This queue has unfinished tasks.</p>
       <span class="pull-right">
         <button class="glyphicon failed text" type="button" ng-click="deleteQueue(queuename)" style="margin-bottom:10px;"> Delete</button>
+        <!--ng-click called a controller function-->
         <button class="glyphicon text" type="button" ng-click="closeDeleteModal()" style="margin-bottom:10px;"> Cancel</button>
       </span>
     </div>

@@ -1,64 +1,75 @@
+<!--html template for the queue details page. child html template or 'partial html'-->
 
-  
-  <script src="js/queueTaskDetailsDataTable.js"></script>
-  <link href="./css/datatables.css" rel="stylesheet">
+
+
+<script src="js/queueTaskDetailsDataTable.js"></script> <!--DataTables Javascript code pertaining to the queueTaskDetails table is in this file-->
+<link href="./css/datatables.css" rel="stylesheet"> 
 
 <button class="glyphicon text" style="float:right; margin-left:5px;" ng-click="logOut()" >Log out</button>
+<!--ng-click is an angular directive used to called a controller function-->
 <button class="glyphicon text" style="float:right" ng-click="goToUserhomePage()" >Home</button>
-<h1 style="margin-bottom:3px;">{{username}}'s {{ queue.name }} queue</h1>
+
+<h1 style="margin-bottom:3px;">{{username}}'s {{ queue.name }} queue</h1> <!--curly brackets surround javascript code-->
 <p class="lead" style="margin-bottom:3px;">{{ queue.name }} is 
-  <span ng-if= "isPaused(queue)">
+  <span ng-if= "isPaused(queue)"> <!--ng-if is an angularjs directive. isPaused is a javascript $scope function in controllers.js-->
     <span class="waitingPaused">
-      {{ queue.state }}
+      {{ queue.state }} <!--curly brackets surround javascript code-->
     </span>
   </span> 
-  <span ng-if= "isActive(queue)">
+  <span ng-if= "isActive(queue)"> <!--ng-if is an angularjs directive. isActive is a javascript $scope function-->
     <span class="runningActive">
-      {{ queue.state }}
+      {{ queue.state }} <!--curly brackets surround javascript code-->
     </span>
   </span> 
-  and has {{queue.ntasks.Waiting  + queue.ntasks.Running + queue.ntasks.Pending}} tasks left to do.
+  and has {{queue.ntasks.Waiting  + queue.ntasks.Running + queue.ntasks.Pending}} tasks left to do. <!--curly brackets surround javascript code-->
 </p>
-<span ng-if= "failed(queue)">
-    <span class="glyphicon icon-red" style="margin-bottom:10px;"> {{queue.ntasks.Failed}} failed tasks.</span>
+<span ng-if= "failed(queue)"> <!--ng-if is an angularjs directive. isActive is a javascript $scope function-->
+    <span class="glyphicon icon-red" style="margin-bottom:10px;"> {{queue.ntasks.Failed}} failed tasks.</span> <!--curly brackets surround javascript code-->
 </span>
+
+
+<!--Progress Bar code-->
 <ul class="list-group">
     <li class="list-group-item">
-      <span ng-if="succeeded(queue)" >
+      <span ng-if="succeeded(queue)" > <!--ng-if is an angularjs directive. succeeded is a javascript $scope function in controllers.js-->
         <span class="glyphicon glyphicon-ok successful"></span>
       </span>
-      <span ng-if= "failed(queue)" >
+      <span ng-if= "failed(queue)" > <!--ng-if is an angularjs directive. failed is a javascript $scope function in controllers.js-->
         <span class="glyphicon glyphicon-warning-sign failed"></span>
       </span>
-      <span ng-if= "inProgress(queue) && isPaused(queue)" >
+      <span ng-if= "inProgress(queue) && isPaused(queue)" > <!--ng-if is an angularjs directive. inProgress/isPaused are javascript $scope functions in controllers.js-->
         <span class="glyphicon glyphicon-road waitingPaused"></span>
       </span>
-      <span ng-if= "inProgress(queue) && isActive(queue)" >
+      <span ng-if= "inProgress(queue) && isActive(queue)" > <!--ng-if is an angularjs directive. inProgress/isActive are javascript $scope functions in controllers.js-->
         <span class="glyphicon glyphicon-road runningActive"></span>
       </span>
 
-      {{ queue.name }}
+      {{ queue.name }} <!--curly brackets surround javascript code-->
 
       <div class="progress pull-right" style="width: 80%">
         <div class="progress-bar progress-bar-success" style="width: {{ percent(queue, 'Succeeded') }}%">
-          <span>{{ queue["ntasks"]["Succeeded"] }}</span>
+          <span>{{ queue["ntasks"]["Succeeded"] }}</span> <!--curly brackets surround javascript code-->
         </div>
         <div class="progress-bar" style="width: {{ percent(queue, 'Running') }}%"> <!--dark blue-->
-          <span>{{ queue["ntasks"]["Running"] }}</span>
+          <span>{{ queue["ntasks"]["Running"] }}</span> <!--curly brackets surround javascript code-->
         </div>
         <div class="progress-bar progress-bar-warning" style="width: {{ percent(queue, 'Waiting') }}%">
-          <span>{{ queue["ntasks"]["Waiting"] }}</span>
+          <span>{{ queue["ntasks"]["Waiting"] }}</span> <!--curly brackets surround javascript code-->
         </div>
         <div class="progress-bar progress-bar-danger" style="width: {{ percent(queue, 'Failed') }}%">
-          <span>{{ queue["ntasks"]["Failed"] }}</span>
+          <span>{{ queue["ntasks"]["Failed"] }}</span> <!--curly brackets surround javascript code-->
         </div>
         <div class="progress-bar progress-bar-info" style="width: {{ percent(queue, 'Pending') }}%"> <!--light blue-->
-          <span>{{ queue["ntasks"]["Pending"] }}</span>
+          <span>{{ queue["ntasks"]["Pending"] }}</span> <!--curly brackets surround javascript code-->
         </div>
       </div> 
-      
     </li>
 </ul>
+
+
+
+<!--ng-click is an angular directive used to called a controller function-->
+<!--ng-if is an angular directive that will display an html elment depending on the truthfullness of the inner javascript value-->
 <div style = "display:block;" >
     <button class="glyphicon text" type="button" ng-click="rerun()"> <span class="glyphicon-repeat runningActive"></span> Rerun all tasks</button>
   <span ng-if= "isActive(queue)" >
@@ -70,6 +81,8 @@
   <span ng-if= "failed(queue)" >
       <button class="glyphicon text" type="button" ng-click="retry()"> <span class="glyphicon-refresh runningActive"></span> Retry failed tasks</button>
   </span>
+
+  <!--color key-->
   <span style = "float: right;">
     Key: 
     <span class="successful">Succeeded</span>
@@ -82,25 +95,26 @@
 </div>
 
 
-
+<!--Add Tasks code-->
 <div style = "display:block; margin-top:10px;">
-  <p>Enter a task below and hit "Add Task" to add a task to the {{queue.name}} queue.</p>
-  <form ng-submit="">
+  <p>Enter a task below and hit "Add Task" to add a task to the {{queue.name}} queue.</p> <!--curly brackets surround javascript code-->
+  <form ng-submit=""> <!--ng-submit is an angularjs directive that allows an input element to do the action caused by on the button when pressing the enter key-->
     <span>Task:</span>
-    <input type="text" style = "margin-right:10px;"ng-model="newTask">
+    <input type="text" style = "margin-right:10px;"ng-model="newTask"> <!--ng-model is an angularJS directive that stores the input in a $scope variable for that template-->
     <span>Priority (Optional):</span>
-    <input type="text" ng-model="priority">
-    <button class="glyphicon text" ng-click="addTask()" >Add Task</button>
+    <input type="text" ng-model="priority"> <!--ng-model is an angularJS directive that stores the input in a $scope variable for that template-->
+    <button class="glyphicon text" ng-click="addTask()" >Add Task</button> <!--ng-click is an angular directive used to called a controller function-->
   <form>
 </div>
 
 
 
-
-<div>
+<!--Task details table code-->
+<div> <!--ng-click is an angular directive used to called a controller function-->
   <button style="margin-top:10px; margin-bottom:10px;" class="glyphicon text" type="button" ng-click="showHideTaskDetailsTable()"> Task Details:</button>
+  <!--ng-if is an angular directive that will display an html elment depending on the truthfullness of the inner javascript value-->
   <div ng-if="showTaskDetailsTable" class= "container">
-
+    <!--project-table called a directive that I made in directive.js pertaining to the table-->
     <table project-table id="queueTaskDetailsTable" aa-data="queueTaskDetails" class="table table-striped table-bordered" cellpadding="0" cellspacing="0" border="0" >
         <thead>
             <tr>

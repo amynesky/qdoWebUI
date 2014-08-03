@@ -1,11 +1,16 @@
+//Think of this file as full of helper javaScript functions for the controller functions. 
+//This is where you make javaScript functions that call other pages. GETs, PUTs, POSTs, DELETEs...etc.
+//these functions are not specific to any particular html template and are called in controllers.js
+//NOTE: $http is a special angularjs object
+
 'use strict'
 
 var qdoServices = angular.module('qdoServices', ['ngResource']);
 
 
 
-
-
+//Auth deals with logging in
+//'inject' all kinds of objects you are going to use, think of this as giving angularJS a heads up.
 qdoServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base64, $cookieStore, $http) {
     // initialize to whatever is in the cookie, if anything
     //$http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
@@ -22,7 +27,8 @@ qdoServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base
 }]);
 
 
-//retrieves the qdo queues
+//QueueFactory functions retrieve the qdo queues and manipulate them
+//'inject' all kinds of objects you are going to use, think of this as giving angularJS a heads up.
 qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function ($base64, $rootScope, $http) {
   return {
       getQueues: function (username) {
@@ -117,10 +123,6 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
               method: 'POST', 
               url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/", 
               data : 'task=' + task + "&priority=" + priority,
-              //data : 'task=' + task,
-              //data : 'priority=' + priority, // tried just adding a second data entry
-              //data : 'task=' + task + ', priority=' + priority,
-              //data : {'task' : task, 'priority' : priority},
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
                 'Content-Type': 'application/x-www-form-urlencoded'

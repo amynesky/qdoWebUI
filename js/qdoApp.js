@@ -1,7 +1,8 @@
 'use strict';
 
 /* qdoApp Module */
-//This is the main javascript file, Think of this file as the conductor for all the other javascript files
+//This is the main/parent javascript file, Think of this file as the conductor for all the other javascript files\
+//tell your app about all the different templates, their urls and their controllers are in this file
 
 var qdoApp = angular.module('qdoApp', [ //tell quoApp about any javascript modules (directives, controllers, services) here:
   'qdoControllers',
@@ -17,7 +18,10 @@ var qdoApp = angular.module('qdoApp', [ //tell quoApp about any javascript modul
   'ngSanitize'
 ]).run(//'inject' all kinds of objects you are going to use, think of this as giving angularJS a heads up.
       [ '$rootScope', '$state', '$stateParams', 'localStorageService', 
-      function ($rootScope,   $state,   $stateParams, localStorageService) {
+      function ($rootScope,   $state,   $stateParams, localStorageService) { //localstorage is an angularjs library 
+        //think of $rootScope variables as global variables across all templates
+        // $stateParams are parts of url that are stored in variables 
+
         //upon first load do all of the things below
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
@@ -54,9 +58,11 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){//'inj
   
   // For any unmatched url, send to /home
   $urlRouterProvider.otherwise("/home")
-  
+
+
+  //tell angularjs about all the different templates you have here, what their url is and what controller they talk to.
   $stateProvider
-    .state('home', {//tell angularjs about all the different templates you have here, what their url is and what controller they talk to.
+    .state('home', {
         url: "/home",
         templateUrl: "partials/home.html",
         controller: 'homeCtrl',
@@ -101,11 +107,12 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){//'inj
           queue: ['$q', 'QueueFactory', '$stateParams', '$rootScope', '$location', 'localStorageService', function($q, QueueFactory, $stateParams, $rootScope, $location, localStorageService){
             $rootScope.loading = true;
               var d = $q.defer();
- 
+                //queuefactory is a set of service functions, getQueue is one of the queuefactory functions
                QueueFactory.getQueue($stateParams.username, $stateParams.queuename).success(function(data, status, headers, config) {
+                //if the getQueues function is successful.. do the following
                   d.resolve(data);
                   $rootScope.loading = false;
-               }).error(function(data, status, headers, config) {
+               }).error(function(data, status, headers, config) { //if the getQueues function fails..do the following
                   console.log("error: could not retreive queue.");
                   $rootScope.credentialsAuthorized = false;
                   $rootScope.loading = false;
@@ -123,11 +130,12 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){//'inj
           queueTaskDetails: ['$q', 'QueueFactory', '$stateParams', '$rootScope', '$location', 'localStorageService', function($q, QueueFactory, $stateParams, $rootScope, $location, localStorageService){
             $rootScope.loading = true;
               var d = $q.defer();
- 
+                //queuefactory is a set of service functions, getQueueTaskDetails is one of the queuefactory functions
                QueueFactory.getQueueTaskDetails($stateParams.username, $stateParams.queuename).success(function(data, status, headers, config) {
+                //if the getQueues function is successful.. do the following
                   d.resolve(data.tasks);
                   $rootScope.loading = false;
-               }).error(function(data, status, headers, config) {
+               }).error(function(data, status, headers, config) { //if the getQueues function fails..do the following
                   console.log("error: could not retreive queue task details.");
                   $rootScope.credentialsAuthorized = false;
                   $rootScope.loading = false;

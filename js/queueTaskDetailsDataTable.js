@@ -1,3 +1,5 @@
+//This file contains DataTables Javascript for the queueTaskDetails table on the queue details page
+
 /* Set the defaults for DataTables initialisation */
 $.extend( true, $.fn.dataTable.defaults, {
     "sDom": "<'row'<'col-lg-6'l><'col-lg-6'f>r>t<'row'<'col-lg-6'i><'col-lg-6'p>>",

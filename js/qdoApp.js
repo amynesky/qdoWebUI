@@ -25,8 +25,6 @@ var qdoApp = angular.module('qdoApp', [ //tell quoApp about any javascript modul
         //upon first load do all of the things below
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        //navigation template locations
-        $rootScope.navPath = "./partials/navigations/nav.html";
 
         /*check to see that you already have a token for the day*/
         var currentDate = new Date();

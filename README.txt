@@ -114,11 +114,8 @@ ng-submit is an angularjs directive that allows an input element to do the actio
                     }).error(function(data, status, headers, config) { //if Auth.setCredentials fails, do the following
                         $rootScope.credentialsAuthorized = false;
                     });
-            });
-
-            
+            });            
         };
-
 
         $scope.error = "Whoops! Please try logging in again." ;
 
@@ -133,7 +130,7 @@ qdoServices.factory('HostFactory', function ($resource) {
 
 });
 
-/config/apiHost.json can be manually edited to match the api host. logIn() tells the app to store the api host name in a $rootScope variable. $rootScope functions and variables are global across all templates. Then logIn() calls the setCredentials function inside the Auth service in the services.js file:
+/config/apiHost.json can be manually edited to match the api host. logIn() tells the app to store the api host name in the variable $rootScope.apiHost. $rootScope functions and variables are global across all templates. Then logIn() calls the setCredentials function inside the Auth service in the services.js file:
 
 qdoServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base64, $cookieStore, $http) {
     return {

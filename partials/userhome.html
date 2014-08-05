@@ -25,7 +25,7 @@
             <span class="glyphicon glyphicon-road runningActive"></span>
           </span>
           <!--link to the que details page-->
-          <a ng-href="./qdo.html#/home/{{username}}/{{queue.name}}"> {{ queue.name }} </a> <!--curly brackets surround javascript code-->
+          <a ng-href="./qdo.html#/home/{{username}}/queues/{{queue.name}}"> {{ queue.name }} </a> <!--curly brackets surround javascript code-->
 
           <!--The below section of code pertains to makes the delete buttons that call a dialog window to appear and grey-out the main window-->
           <!--ng-dialog is an angular directive that pulls up the dialog template if deleteSucessfulQueueModal/deleteModal is true, a dialog template has it's own controller functions in controllers.js, templates for the two different dialog windows can be found below in scripts-->

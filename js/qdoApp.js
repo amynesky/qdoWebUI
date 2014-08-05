@@ -97,7 +97,7 @@ qdoApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){//'inj
         }
     })
     .state('queue', {
-        url: "/home/:username/:queuename",//username and queuename are $stateParams
+        url: "/home/:username/queues/:queuename",//username and queuename are $stateParams
         templateUrl: "partials/queue.html",
         controller: 'queueCtrl',
         resolve: {//resolve tells angularjs to stall loading the template until 'this' stuff has finished

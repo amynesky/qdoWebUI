@@ -12,26 +12,34 @@ var qdoControllers = angular.module('qdoControllers', []);
 
 /* controller for home/log in page */
 //'inject' all kinds of objects you are going to use, think of this as giving angularJS a heads up.
-qdoControllers.controller('homeCtrl', function ($scope, $rootScope, $location, localStorageService, Auth) { //localstorage is an angularjs library, Auth is a set of service functions
+qdoControllers.controller('homeCtrl', function ($scope, $rootScope, $location, localStorageService, Auth, HostFactory) { //localstorage is an angularjs library, Auth is a set of service functions
 
         $scope.logIn = function (){
-            //think of $scope as variables for a given page template, username and password were stored in the scope by the nd-model directive
-            var token = Auth.setCredentials($scope.username, $scope.password).success(function(data, status, headers, config) {
-                //if Auth.setCredentials is successful, do the following
-                token = data.token;
-                var expiration = data.expires;
-                localStorageService.set("token", {  /*store the token locally*/
-                  "username": $scope.username, 
-                  "password": $scope.password, 
-                  "token": token, 
-                  "expiration" : expiration
-                });
-                $rootScope.token = token;
-                $rootScope.credentialsAuthorized = true;
-                $location.path( '/home/' + $scope.username );
-            }).error(function(data, status, headers, config) { //if Auth.setCredentials fails, do the following
-                $rootScope.credentialsAuthorized = false;
+            //grab the host of the api first
+            var apiHost = HostFactory.query();
+            apiHost.$promise.then(function(data){
+                    $rootScope.apiHost = data.apiHost;
+
+                    //think of $scope as variables for a given page template, username and password were stored in the scope by the nd-model directive
+                    var token = Auth.setCredentials($scope.username, $scope.password).success(function(data, status, headers, config) {
+                        //if Auth.setCredentials is successful, do the following
+                        token = data.token;
+                        var expiration = data.expires;
+                        localStorageService.set("token", {  /*store the token locally*/
+                          "username": $scope.username, 
+                          "password": $scope.password, 
+                          "token": token, 
+                          "expiration" : expiration
+                        });
+                        $rootScope.token = token;
+                        $rootScope.credentialsAuthorized = true;
+                        $location.path( '/home/' + $scope.username );
+                    }).error(function(data, status, headers, config) { //if Auth.setCredentials fails, do the following
+                        $rootScope.credentialsAuthorized = false;
+                    });
             });
+
+            
         };
 
 

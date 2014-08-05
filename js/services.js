@@ -7,19 +7,24 @@
 
 var qdoServices = angular.module('qdoServices', ['ngResource']);
 
+//retrieves the host.json file which you can manually edit to change the host of the api
+qdoServices.factory('HostFactory', function ($resource) {
+        return $resource('./config/apiHost.json', {}, {
+        query: { method: 'GET' },
+    })
+
+});
+
 
 
 //Auth deals with logging in
 //'inject' all kinds of objects you are going to use, think of this as giving angularJS a heads up.
-qdoServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base64, $cookieStore, $http) {
-    // initialize to whatever is in the cookie, if anything
-    //$http.defaults.headers.common['Authorization'] = 'Basic ' + $cookieStore.get('authdata');
- 
+qdoServices.factory('Auth', ['$base64', '$rootScope', '$http', function ($base64, $rootScope, $http) {
     return {
         setCredentials: function (username, password) {
             return $http({
               method: 'GET', 
-              url: 'http://0.0.0.0:8080/api/v1/token', 
+              url:  $rootScope.apiHost + '/api/v1/token', 
               headers: {'Authorization': 'Basic '+ $base64.encode(username + ':' + password)}
             });
         },
@@ -35,7 +40,7 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
           //console.log($rootScope.token);
           return $http({
               method: 'GET', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/', 
+              url: $rootScope.apiHost + '/api/v1/' + username + '/', 
               headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
             });
       },
@@ -43,7 +48,7 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
           //console.log($rootScope.token);
           return $http({
               method: 'GET', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
+              url: $rootScope.apiHost + '/api/v1/' + username + '/queues/' + queuename, 
               headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password")}
             });
       },
@@ -52,14 +57,14 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
           //console.log('http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/");
             return $http({
               method: 'GET', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/", 
+              url: $rootScope.apiHost + '/api/v1/' + username + '/queues/' + queuename + "/tasks/", 
               headers: {'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"),               },
             });
       },
       pause: function(username, queuename){
           return $http({
               method: 'PUT', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
+              url: $rootScope.apiHost + '/api/v1/' + username + '/queues/' + queuename, 
               data : 'state=Paused',
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
@@ -70,7 +75,7 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
       resume: function(username, queuename){
            return $http({
               method: 'PUT', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
+              url: $rootScope.apiHost + '/api/v1/' + username + '/queues/' + queuename, 
               data : 'state=Active',
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
@@ -81,7 +86,7 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
       retry: function(username, queuename){
            return $http({
               method: 'PUT', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + '/retry', 
+              url: $rootScope.apiHost + '/api/v1/' + username + '/queues/' + queuename + '/retry', 
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -91,7 +96,7 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
       rerun: function(username, queuename){
            return $http({
               method: 'PUT', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + '/rerun', 
+              url: $rootScope.apiHost + '/api/v1/' + username + '/queues/' + queuename + '/rerun', 
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -101,7 +106,7 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
       deleteQueue: function(username, queuename){
            return $http({
               method: 'DELETE', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
+              url: $rootScope.apiHost + '/api/v1/' + username + '/queues/' + queuename, 
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -111,7 +116,7 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
       createQueue: function(username, queuename){
            return $http({
               method: 'POST', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename, 
+              url: $rootScope.apiHost + '/api/v1/' + username + '/queues/' + queuename, 
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -121,7 +126,7 @@ qdoServices.factory('QueueFactory', ['$base64', '$rootScope', '$http', function 
       addTask: function(username, queuename, task, priority){
            return $http({
               method: 'POST', 
-              url: 'http://0.0.0.0:8080/api/v1/' + username + '/queues/' + queuename + "/tasks/", 
+              url: $rootScope.apiHost + '/api/v1/' + username + '/queues/' + queuename + "/tasks/", 
               data : 'task=' + task + "&priority=" + priority,
               headers: {
                 'Authorization': 'Basic '+ $base64.encode($rootScope.token + ':' + "not_a_valid_password"), 
@@ -170,14 +175,3 @@ qdoServices.factory('api', function ($http, $cookies) {
 });
 
 
-//calls the API to login
-qdoServices.factory('authorization', function ($http) {
-  return {
-      login: function (credentials) {
-          return $http.post('http://0.0.0.0:8080/api/v1/token', credentials);
-      },
-      logout: function () {
-          return $http.post('/epb/admin/user/logout');
-      }
-  };
-});

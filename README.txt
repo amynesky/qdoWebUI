@@ -87,26 +87,32 @@ home.html looks like this:
 
 ng-submit is an angularjs directive that allows an input element to do the action value or the action caused by clicking on the button inside the form html tags when pressing the enter key.  In this case, the action attached to the button, using the angular ng-click directive, inside the form tags is logIn().  logIn() can be found in the homeCtrl controller in controllers.js:
 
-qdoControllers.controller('homeCtrl', function ($scope, $rootScope, $location, localStorageService, Auth) { //localstorage is an angularjs library, Auth is a set of service functions
-
         $scope.logIn = function (){
-            //think of $scope as global variables for a given page template, username and password were stored in the scope by the nd-model directive
-            var token = Auth.setCredentials($scope.username, $scope.password).success(function(data, status, headers, config) {
-                //if Auth.setCredentials is successful, do the following
-                token = data.token;
-                var expiration = data.expires;
-                localStorageService.set("token", {  /*store the token locally*/
-                  "username": $scope.username, 
-                  "password": $scope.password, 
-                  "token": token, 
-                  "expiration" : expiration
-                });
-                $rootScope.token = token;
-                $rootScope.credentialsAuthorized = true;
-                $location.path( '/home/' + $scope.username );
-            }).error(function(data, status, headers, config) { //if Auth.setCredentials fails, do the following
-                $rootScope.credentialsAuthorized = false;
+            //grab the host of the api first
+            var apiHost = HostFactory.query();
+            apiHost.$promise.then(function(data){
+                    $rootScope.apiHost = data.apiHost;
+
+                    //think of $scope as variables for a given page template, username and password were stored in the scope by the nd-model directive
+                    var token = Auth.setCredentials($scope.username, $scope.password).success(function(data, status, headers, config) {
+                        //if Auth.setCredentials is successful, do the following
+                        token = data.token;
+                        var expiration = data.expires;
+                        localStorageService.set("token", {  /*store the token locally*/
+                          "username": $scope.username, 
+                          "password": $scope.password, 
+                          "token": token, 
+                          "expiration" : expiration
+                        });
+                        $rootScope.token = token;
+                        $rootScope.credentialsAuthorized = true;
+                        $location.path( '/home/' + $scope.username );
+                    }).error(function(data, status, headers, config) { //if Auth.setCredentials fails, do the following
+                        $rootScope.credentialsAuthorized = false;
+                    });
             });
+
+            
         };
 
 
@@ -114,21 +120,30 @@ qdoControllers.controller('homeCtrl', function ($scope, $rootScope, $location, l
 
 });
 
-logIn() is a $scope function, which one can think of a function specific to the corresponding template (other templates will not recognize this function).  logIn() makes a called to the setCredentials function inside the Auth service in the services.js file:
+logIn() is a $scope function, which one can think of a function specific to the corresponding template (other templates will not recognize this function). First, logIn() calls .query() from the HostFactory service inside the services.js file:
+
+qdoServices.factory('HostFactory', function ($resource) {
+        return $resource('./config/apiHost.json', {}, {
+        query: { method: 'GET' },
+    })
+
+});
+
+/config/apiHost.json can be manually edited to match the api host. logIn() tells the app to store the api host name in a $rootScope variable. $rootScope functions and variables are global across all templates. Then logIn() calls the setCredentials function inside the Auth service in the services.js file:
 
 qdoServices.factory('Auth', ['$base64', '$cookieStore', '$http', function ($base64, $cookieStore, $http) {
     return {
         setCredentials: function (username, password) {
             return $http({
               method: 'GET', 
-              url: 'http://0.0.0.0:8080/api/v1/token', 
+              url: $rootScope.apiHost + '/api/v1/token', 
               headers: {'Authorization': 'Basic '+ $base64.encode(username + ':' + password)}
             });
         },
     };
 }]);
 
-Notice that $scope.username and $scope.password are passed in to the setCredentials function.  In home.html, the ng-model angularjs directive stored the input values in these $scope variables. If setCredentials is successful, logIn() will store the resulting token in local storage and redirect the page to the base url + '/home/' + $scope.username (which has its own template and controllers). If successful, logIn() will also set a few $rootScope variables to ‘true’.  $rootScope functions and variables are global across all templates.  In particular, $rootScope.credentialsAuthorized = true, upon success.  This global variable was initialed as true when the app first loaded in qdoApp.js:
+Notice that $scope.username and $scope.password are passed in to the setCredentials function.  In home.html, the ng-model angularjs directive stored the input values in these $scope variables. If setCredentials is successful, logIn() will store the resulting token in local storage and redirect the page to the base url + '/home/' + $scope.username (which has its own template and controllers). If successful, logIn() will also set a few $rootScope variables to ‘true’.  In particular, $rootScope.credentialsAuthorized = true, upon success.  This global variable was initialed as true when the app first loaded in qdoApp.js:
 
 var qdoApp = angular.module('qdoApp', [ //tell quoApp about any javascript modules (directives, controllers, services) here:
   'qdoControllers',

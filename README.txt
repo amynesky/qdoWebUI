@@ -37,6 +37,10 @@ CSS:
 /css/styles.css
 	 - this is the personalized stylesheet
 
+JSON:
+/config/apiHost.json
+	 - manually edit this file to match the name of the api host
+
 
 
 

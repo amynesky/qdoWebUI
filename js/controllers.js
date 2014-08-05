@@ -5,7 +5,7 @@
 /* Controllers allow you make javascript helper functions */
 var qdoControllers = angular.module('qdoControllers', []);
 
-//think of $scope as global variables/functions for a given page template
+//think of $scope as variables/functions for a given page template
 //think of $rootScope variables/functions as global variables across all templates
 // $stateParams are parts of url that are stored in variables
 
@@ -15,7 +15,7 @@ var qdoControllers = angular.module('qdoControllers', []);
 qdoControllers.controller('homeCtrl', function ($scope, $rootScope, $location, localStorageService, Auth) { //localstorage is an angularjs library, Auth is a set of service functions
 
         $scope.logIn = function (){
-            //think of $scope as global variables for a given page template, username and password were stored in the scope by the nd-model directive
+            //think of $scope as variables for a given page template, username and password were stored in the scope by the nd-model directive
             var token = Auth.setCredentials($scope.username, $scope.password).success(function(data, status, headers, config) {
                 //if Auth.setCredentials is successful, do the following
                 token = data.token;
@@ -49,7 +49,7 @@ qdoControllers.controller('userhomeCtrl', //'inject' all kinds of objects you ar
         //QueueFactory is a set of service functions
         // localStorageService is an angularjs library
         // queues variable was declared in qdoApp.js
-        //think of $scope as global variables/functions for a given page template
+        //think of $scope as variables/functions for a given page template
         //think of $rootScope variables/functions as global variables across all templates
         // $stateParams are parts of url that are stored in variables
        
@@ -127,7 +127,7 @@ qdoControllers.controller('userhomeCtrl', //'inject' all kinds of objects you ar
 //'inject' all kinds of objects you are going to use, think of this as giving angularJS a heads up.
 qdoControllers.controller('deleteQueueController', function($scope, $rootScope, $stateParams, QueueFactory, ngDialog) {
     //QueueFactory is a set of service functions
-    //think of $scope as global variables/functions for a given page template
+    //think of $scope as variables/functions for a given page template
     //think of $rootScope variables/functions as global variables across all templates
     // $stateParams are parts of url that are stored in variables
     // ngDialog ia an angularjs library pertaining to popup dialog windows
@@ -162,7 +162,7 @@ qdoControllers.controller('queueCtrl', //'inject' all kinds of objects you are g
         // localStorageService is an angularjs library
         // queue variable was declared in qdoApp.js
         // queueTaskDetails variable was declared in qdoApp.js
-        //think of $scope as global variables/functions for a given page template
+        //think of $scope as variables/functions for a given page template
         //think of $rootScope variables/functions as global variables across all templates
         // $stateParams are parts of url that are stored in variables
        
